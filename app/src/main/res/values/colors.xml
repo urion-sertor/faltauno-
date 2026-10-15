@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Colores primarios accesibles -->
+    <color name="color_primario">#0D47A1</color>
+    <color name="color_primario_oscuro">#002171</color>
+    <color name="color_secundario">#1976D2</color>
+
+    <!-- Fondos de alto contraste sobre fondo claro -->
+    <color name="color_fondo">#F5F5F5</color>
+    <color name="color_fondo_tarjeta">#FFFFFF</color>
+
+    <!-- Textos de máxima legibilidad -->
+    <color name="color_texto_principal">#1A1A1A</color>
+    <color name="color_texto_secundario">#333333</color>
+    <color name="color_texto_blanco">#FFFFFF</color>
+
+    <!-- Estados de acción para personas mayores -->
+    <color name="color_verde_apunto">#2E7D32</color>
+    <color name="color_verde_apunto_pulsado">#1B5E20</color>
+    <color name="color_gris_lleno">#757575</color>
+    <color name="color_gris_fondo_deshabilitado">#E0E0E0</color>
+    <color name="color_naranja_falta_uno">#E65100</color>
+    <color name="color_azul_altavoz">#0277BD</color>
+    <color name="color_borde">#BDBDBD</color>
+</resources>

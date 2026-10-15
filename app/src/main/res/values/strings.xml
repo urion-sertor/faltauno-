@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Nombre accesible de la aplicación -->
+    <string name="app_name">Falta Uno!</string>
+
+    <!-- Títulos y subtítulos principales -->
+    <string name="titulo_pantalla_principal">Partidas de hoy en el barrio</string>
+    <string name="subtitulo_pantalla_principal">Toca un juego para filtrar o publica un aviso</string>
+    <string name="titulo_nueva_partida">Avisar que Falta 1</string>
+    <string name="subtitulo_nueva_partida">Rellena los datos para que otros vecinos se apunten</string>
+
+    <!-- Nombres de los juegos populares -->
+    <string name="juego_todos">Todos</string>
+    <string name="juego_domino">Dominó</string>
+    <string name="juego_cartas">Cartas</string>
+    <string name="juego_petanca">Petanca</string>
+    <string name="juego_parchis">Parchís</string>
+
+    <!-- Estados y acciones sin lenguaje técnico -->
+    <string name="accion_me_apunto">¡Me apunto!</string>
+    <string name="estado_partida_llena">Partida llena</string>
+    <string name="accion_falta_uno">¡Falta 1! (Crear aviso)</string>
+    <string name="accion_publicar">Publicar</string>
+    <string name="accion_volver">Volver atrás</string>
+    <string name="accion_oir">Oír 🔊</string>
+
+    <!-- Etiquetas del formulario y tarjetas -->
+    <string name="etiqueta_elige_juego">Elige juego:</string>
+    <string name="etiqueta_hora">Hora:</string>
+    <string name="etiqueta_lugar">Lugar:</string>
+    <string name="etiqueta_creador">¿Quién avisa? (Tu apodo):</string>
+    <string name="pista_hora">Ejemplo: 17:00</string>
+    <string name="pista_lugar">Ejemplo: Plaza Mayor</string>
+    <string name="pista_creador">Ejemplo: Paco</string>
+    <string name="formato_hora">Hora: %1$s</string>
+    <string name="formato_lugar">Lugar: %1$s</string>
+    <string name="formato_plazas_libres">Plazas libres: %1$d</string>
+    <string name="formato_creador">Organiza: %1$s</string>
+    <string name="formato_locucion_voz">Partida de %1$s, a las %2$s, en %3$s. Quedan %4$d plazas libres.</string>
+
+    <!-- Mensajes informativos y avisos Toast -->
+    <string name="toast_apuntado_exito">¡Me apunto! Te esperan a las %1$s en %2$s.</string>
+    <string name="toast_partida_llena">Esta partida ya está completa.</string>
+    <string name="toast_faltan_campos">Por favor, escribe la hora y el lugar.</string>
+    <string name="toast_partida_publicada">¡Partida publicada con éxito!</string>
+    <string name="toast_error_voz">No se ha podido iniciar la voz en español.</string>
+
+    <!-- Descripciones de accesibilidad para invidentes o lectura de pantalla -->
+    <string name="desc_altavoz">Escuchar los detalles de la partida en voz alta</string>
+    <string name="desc_boton_falta_uno">Crear una nueva partida para avisar a los vecinos</string>
+</resources>

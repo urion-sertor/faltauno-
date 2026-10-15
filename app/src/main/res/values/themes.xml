@@ -1,0 +1,22 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Tema accesible de alto contraste para personas mayores -->
+    <style name="Theme.FaltaUno" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Colores primarios de la aplicación -->
+        <item name="colorPrimary">@color/color_primario</item>
+        <item name="colorPrimaryVariant">@color/color_primario_oscuro</item>
+        <item name="colorOnPrimary">@color/color_texto_blanco</item>
+
+        <!-- Colores secundarios de realce -->
+        <item name="colorSecondary">@color/color_secundario</item>
+        <item name="colorOnSecondary">@color/color_texto_blanco</item>
+
+        <!-- Fondo claro y textos de alto contraste -->
+        <item name="android:windowBackground">@color/color_fondo</item>
+        <item name="android:textColorPrimary">@color/color_texto_principal</item>
+        <item name="android:textColorSecondary">@color/color_texto_secundario</item>
+
+        <!-- Barra de estado del sistema Android -->
+        <item name="android:statusBarColor">@color/color_primario_oscuro</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+    </style>
+</resources>

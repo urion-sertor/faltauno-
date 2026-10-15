@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_fondo"
+    android:fillViewport="true"
+    tools:context=".ui.NuevaPartidaActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Cabecera grande accesible -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_primario"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_general">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/titulo_nueva_partida"
+                android:textColor="@color/color_texto_blanco"
+                android:textSize="@dimen/texto_titulo"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/subtitulo_nueva_partida"
+                android:textColor="@color/color_texto_blanco"
+                android:textSize="@dimen/texto_base" />
+
+        </LinearLayout>
+
+        <!-- Contenedor del formulario con espaciado generoso -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_general">
+
+            <!-- Campo 1: Selección de juego -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/etiqueta_elige_juego"
+                android:textColor="@color/color_texto_principal"
+                android:textSize="@dimen/texto_base"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spJuegos"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btn_min_tamano"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="@dimen/padding_general"
+                android:background="@android:drawable/btn_dropdown"
+                android:paddingStart="@dimen/padding_pequeno"
+                android:paddingEnd="@dimen/padding_pequeno" />
+
+            <!-- Campo 2: Hora de la partida -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/etiqueta_hora"
+                android:textColor="@color/color_texto_principal"
+                android:textSize="@dimen/texto_base"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etHoraPartida"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btn_min_tamano"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="@dimen/padding_general"
+                android:background="@android:drawable/editbox_background"
+                android:hint="@string/pista_hora"
+                android:importantForAutofill="no"
+                android:inputType="time"
+                android:paddingStart="@dimen/padding_general"
+                android:paddingEnd="@dimen/padding_general"
+                android:textColor="@color/color_texto_principal"
+                android:textSize="@dimen/texto_base" />
+
+            <!-- Campo 3: Lugar de la partida -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/etiqueta_lugar"
+                android:textColor="@color/color_texto_principal"
+                android:textSize="@dimen/texto_base"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etLugarPartida"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btn_min_tamano"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="@dimen/padding_general"
+                android:background="@android:drawable/editbox_background"
+                android:hint="@string/pista_lugar"
+                android:importantForAutofill="no"
+                android:inputType="textCapWords"
+                android:paddingStart="@dimen/padding_general"
+                android:paddingEnd="@dimen/padding_general"
+                android:textColor="@color/color_texto_principal"
+                android:textSize="@dimen/texto_base" />
+
+            <!-- Campo 4: Nombre o apodo de quien avisa -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/etiqueta_creador"
+                android:textColor="@color/color_texto_principal"
+                android:textSize="@dimen/texto_base"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etCreadorPartida"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btn_min_tamano"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="@dimen/padding_grande"
+                android:background="@android:drawable/editbox_background"
+                android:hint="@string/pista_creador"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:paddingStart="@dimen/padding_general"
+                android:paddingEnd="@dimen/padding_general"
+                android:textColor="@color/color_texto_principal"
+                android:textSize="@dimen/texto_base" />
+
+            <!-- Botón gigante Publicar (Verde accesible) -->
+            <Button
+                android:id="@+id/btnPublicarPartida"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btn_min_tamano"
+                android:backgroundTint="@color/color_verde_apunto"
+                android:text="@string/accion_publicar"
+                android:textColor="@color/color_texto_blanco"
+                android:textSize="@dimen/texto_subtitulo"
+                android:textStyle="bold" />
+
+            <!-- Botón Volver -->
+            <Button
+                android:id="@+id/btnVolverAtras"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btn_min_tamano"
+                android:layout_marginTop="@dimen/padding_general"
+                android:backgroundTint="@color/color_gris_lleno"
+                android:text="@string/accion_volver"
+                android:textColor="@color/color_texto_blanco"
+                android:textSize="@dimen/texto_base" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

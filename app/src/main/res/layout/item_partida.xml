@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/margen_tarjeta"
+    android:layout_marginTop="@dimen/padding_pequeno"
+    android:layout_marginEnd="@dimen/margen_tarjeta"
+    android:layout_marginBottom="@dimen/padding_pequeno"
+    app:cardBackgroundColor="@color/color_fondo_tarjeta"
+    app:cardCornerRadius="@dimen/radio_esquinas"
+    app:cardElevation="@dimen/elevacion_tarjeta"
+    app:cardPreventCornerOverlap="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_general">
+
+        <!-- Fila superior: Nombre del juego y plazas libres destacadas -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvNombreJuego"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Dominó"
+                android:textColor="@color/color_primario"
+                android:textSize="@dimen/texto_titulo"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvPlazasLibres"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/color_fondo"
+                android:paddingStart="@dimen/padding_pequeno"
+                android:paddingTop="4dp"
+                android:paddingEnd="@dimen/padding_pequeno"
+                android:paddingBottom="4dp"
+                android:text="Plazas libres: 1"
+                android:textColor="@color/color_texto_principal"
+                android:textSize="@dimen/texto_base"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Información de hora -->
+        <TextView
+            android:id="@+id/tvHoraPartida"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Hora: 17:00"
+            android:textColor="@color/color_texto_principal"
+            android:textSize="@dimen/texto_base" />
+
+        <!-- Información de lugar -->
+        <TextView
+            android:id="@+id/tvLugarPartida"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Lugar: Plaza Mayor"
+            android:textColor="@color/color_texto_principal"
+            android:textSize="@dimen/texto_base" />
+
+        <!-- Creador o persona que avisa -->
+        <TextView
+            android:id="@+id/tvCreadorPartida"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Avisa: Manolo"
+            android:textColor="@color/color_texto_secundario"
+            android:textSize="16sp" />
+
+        <!-- Fila de acciones accesibles: Botón Altavoz y Botón Me Apunto -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_general"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!-- Botón gigante de altavoz para leer en voz alta -->
+            <Button
+                android:id="@+id/btnAltavoz"
+                android:layout_width="@dimen/btn_min_tamano"
+                android:layout_height="@dimen/btn_min_tamano"
+                android:backgroundTint="@color/color_azul_altavoz"
+                android:contentDescription="@string/desc_altavoz"
+                android:text="🔊"
+                android:textColor="@color/color_texto_blanco"
+                android:textSize="22sp" />
+
+            <!-- Espacio entre botones -->
+            <View
+                android:layout_width="@dimen/padding_general"
+                android:layout_height="0dp" />
+
+            <!-- Botón gigante Me Apunto (cambia a gris cuando está llena) -->
+            <Button
+                android:id="@+id/btnMeApunto"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/btn_min_tamano"
+                android:layout_weight="1"
+                android:backgroundTint="@color/color_verde_apunto"
+                android:text="@string/accion_me_apunto"
+                android:textColor="@color/color_texto_blanco"
+                android:textSize="@dimen/texto_subtitulo"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

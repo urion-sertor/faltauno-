@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_fondo"
+    android:orientation="vertical"
+    tools:context=".ui.MainActivity">
+
+    <!-- Cabecera principal accesible con títulos grandes -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_primario"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_general">
+
+        <TextView
+            android:id="@+id/tvTituloCabecera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/titulo_pantalla_principal"
+            android:textColor="@color/color_texto_blanco"
+            android:textSize="@dimen/texto_titulo"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvSubtituloCabecera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/subtitulo_pantalla_principal"
+            android:textColor="@color/color_texto_blanco"
+            android:textSize="@dimen/texto_base" />
+
+    </LinearLayout>
+
+    <!-- Fila desplazable con botones de filtro gigantes -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/padding_pequeno"
+        android:paddingTop="@dimen/padding_pequeno"
+        android:paddingEnd="@dimen/padding_pequeno"
+        android:paddingBottom="@dimen/padding_pequeno"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnFiltroTodos"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/btn_min_tamano"
+                android:layout_marginEnd="@dimen/padding_pequeno"
+                android:minWidth="@dimen/btn_min_tamano"
+                android:text="@string/juego_todos"
+                android:textSize="@dimen/texto_base" />
+
+            <Button
+                android:id="@+id/btnFiltroDomino"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/btn_min_tamano"
+                android:layout_marginEnd="@dimen/padding_pequeno"
+                android:minWidth="@dimen/btn_min_tamano"
+                android:text="@string/juego_domino"
+                android:textSize="@dimen/texto_base" />
+
+            <Button
+                android:id="@+id/btnFiltroCartas"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/btn_min_tamano"
+                android:layout_marginEnd="@dimen/padding_pequeno"
+                android:minWidth="@dimen/btn_min_tamano"
+                android:text="@string/juego_cartas"
+                android:textSize="@dimen/texto_base" />
+
+            <Button
+                android:id="@+id/btnFiltroPetanca"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/btn_min_tamano"
+                android:layout_marginEnd="@dimen/padding_pequeno"
+                android:minWidth="@dimen/btn_min_tamano"
+                android:text="@string/juego_petanca"
+                android:textSize="@dimen/texto_base" />
+
+            <Button
+                android:id="@+id/btnFiltroParchis"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/btn_min_tamano"
+                android:minWidth="@dimen/btn_min_tamano"
+                android:text="@string/juego_parchis"
+                android:textSize="@dimen/texto_base" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- Lista de partidas del barrio -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPartidas"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingTop="@dimen/padding_pequeno"
+        android:paddingBottom="@dimen/padding_pequeno" />
+
+    <!-- Botón gigante y llamativo 'Falta 1' fijado en la parte inferior -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_fondo_tarjeta"
+        android:elevation="@dimen/elevacion_tarjeta"
+        android:padding="@dimen/padding_general">
+
+        <Button
+            android:id="@+id/btnFaltaUno"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btn_min_tamano"
+            android:backgroundTint="@color/color_naranja_falta_uno"
+            android:contentDescription="@string/desc_boton_falta_uno"
+            android:text="@string/accion_falta_uno"
+            android:textColor="@color/color_texto_blanco"
+            android:textSize="@dimen/texto_subtitulo"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</LinearLayout>
