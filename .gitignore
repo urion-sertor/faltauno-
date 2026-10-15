@@ -1,12 +1,23 @@
+# Archivos de configuración de IntelliJ / Android Studio
 *.iml
-.gradle/
 .idea/
-local.properties
+
+# Caché y compilación de Gradle
+.gradle/
 build/
 app/build/
+**/build/
+
+# Rutas locales del SDK de Android (específico de cada ordenador)
+local.properties
+
+# Binarios y paquetes generados
+*.apk
+*.aab
 captures/
 .externalNativeBuild/
 .cxx/
-*.apk
-*.aab
+
+# Archivos temporales de sistemas operativos (Windows / macOS)
 .DS_Store
+Thumbs.db
