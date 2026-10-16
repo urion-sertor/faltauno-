@@ -8,10 +8,25 @@
 
     <!-- Dimensiones adicionales para márgenes, tarjetas y textos destacados -->
     <dimen name="texto_subtitulo">20sp</dimen>
+    <dimen name="texto_grande">28sp</dimen>
+    <dimen name="espacio_minimo">4dp</dimen>
     <dimen name="padding_pequeno">8dp</dimen>
     <dimen name="padding_grande">24dp</dimen>
-    <dimen name="margen_tarjeta">12dp</dimen>
     <dimen name="radio_esquinas">16dp</dimen>
     <dimen name="elevacion_tarjeta">4dp</dimen>
     <dimen name="tamano_icono">36dp</dimen>
+
+    <!-- Estilo del Figma: botones y campos redondeados, bordes y logo -->
+    <dimen name="radio_boton">12dp</dimen>
+    <dimen name="borde_fino">1dp</dimen>
+    <dimen name="borde_normal">2dp</dimen>
+    <dimen name="borde_seleccion">4dp</dimen>
+    <dimen name="tamano_logo">44dp</dimen>
+    <dimen name="tamano_icono_pequeno">24dp</dimen>
+    <dimen name="espacio_icono">12dp</dimen>
+    <dimen name="texto_numero">40sp</dimen>
+
+    <!-- Casillas de colores de los filtros de juego -->
+    <dimen name="ancho_casilla">112dp</dimen>
+    <dimen name="alto_casilla">104dp</dimen>
 </resources>

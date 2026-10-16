@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Fondo común de los campos del formulario: blanco con borde gris, y borde azul cuando se está escribiendo -->
+<!-- Fondo de los campos del formulario como en Figma: blanco con borde, y verde claro con borde verde al escribir -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:state_focused="true">
         <shape android:shape="rectangle">
-            <solid android:color="@color/color_fondo_tarjeta" />
+            <solid android:color="@color/color_primario_claro" />
             <stroke
-                android:width="3dp"
+                android:width="@dimen/borde_normal"
                 android:color="@color/color_primario" />
-            <corners android:radius="@dimen/padding_pequeno" />
+            <corners android:radius="@dimen/radio_boton" />
         </shape>
     </item>
 
@@ -16,9 +16,9 @@
         <shape android:shape="rectangle">
             <solid android:color="@color/color_fondo_tarjeta" />
             <stroke
-                android:width="2dp"
-                android:color="@color/color_borde" />
-            <corners android:radius="@dimen/padding_pequeno" />
+                android:width="@dimen/borde_normal"
+                android:color="@color/color_borde_campo" />
+            <corners android:radius="@dimen/radio_boton" />
         </shape>
     </item>
 

@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<!-- Tarjeta de partida como en Figma: blanca, esquinas redondeadas y borde suave -->
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/margen_tarjeta"
+    android:layout_marginHorizontal="@dimen/padding_general"
     android:layout_marginVertical="@dimen/padding_pequeno"
     app:cardBackgroundColor="@color/color_fondo_tarjeta"
     app:cardCornerRadius="@dimen/radio_esquinas"
-    app:cardElevation="@dimen/elevacion_tarjeta"
-    app:cardPreventCornerOverlap="true">
+    app:cardElevation="0dp"
+    app:strokeColor="@color/color_borde"
+    app:strokeWidth="@dimen/borde_fino">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +20,7 @@
         android:orientation="vertical"
         android:padding="@dimen/padding_general">
 
-        <!-- Fila de arriba: Titulo del juego y contador de plazas -->
+        <!-- Fila de arriba: "Hoy · 17:00" y etiqueta amarilla "Falta 1" / "Faltan 2" -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,56 +28,59 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tvNombreJuego"
+                android:id="@+id/tvHoraPartida"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                tools:text="Dominó"
-                android:textColor="@color/color_primario"
+                android:textColor="@color/color_texto_principal"
                 android:textSize="@dimen/texto_titulo"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:text="Hoy · 17:00" />
 
-            <!-- Etiqueta con las plazas libres -->
+            <!-- Etiqueta de plazas: texto oscuro sobre amarillo (el adaptador la pone verde claro si está completa) -->
             <TextView
                 android:id="@+id/tvPlazasLibres"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/color_fondo"
-                android:paddingHorizontal="@dimen/padding_pequeno"
-                android:paddingVertical="4dp"
-                tools:text="Plazas libres: 1"
+                android:layout_marginStart="@dimen/padding_pequeno"
+                android:background="@drawable/fondo_etiqueta"
+                android:paddingHorizontal="@dimen/espacio_icono"
+                android:paddingVertical="@dimen/espacio_minimo"
                 android:textColor="@color/color_texto_principal"
                 android:textSize="@dimen/texto_base"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:text="Falta 1" />
         </LinearLayout>
 
-        <!-- Informacion del evento: hora, lugar y quien creo el aviso -->
+        <!-- Juego, lugar y quién organiza -->
         <TextView
-            android:id="@+id/tvHoraPartida"
+            android:id="@+id/tvNombreJuego"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            tools:text="Hora: 17:00"
-            android:textColor="@color/color_texto_principal"
-            android:textSize="@dimen/texto_base" />
+            android:layout_marginTop="@dimen/padding_pequeno"
+            android:textColor="@color/color_primario"
+            android:textSize="@dimen/texto_subtitulo"
+            android:textStyle="bold"
+            tools:text="Dominó" />
 
         <TextView
             android:id="@+id/tvLugarPartida"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            tools:text="Lugar: Plaza Mayor"
+            android:layout_marginTop="@dimen/espacio_minimo"
             android:textColor="@color/color_texto_principal"
-            android:textSize="@dimen/texto_base" />
+            android:textSize="@dimen/texto_subtitulo"
+            android:textStyle="bold"
+            tools:text="Plaza Mayor" />
 
         <TextView
             android:id="@+id/tvCreadorPartida"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            tools:text="Organiza: Manolo"
+            android:layout_marginTop="@dimen/espacio_minimo"
             android:textColor="@color/color_texto_secundario"
-            android:textSize="@dimen/texto_base" />
+            android:textSize="@dimen/texto_base"
+            tools:text="Organiza Manolo" />
 
         <!-- Botonera accesible inferior: altavoz TTS y boton de apuntarse -->
         <!-- Botones rellenos y grandes a propósito para personas mayores (no "sin borde" como sugiere lint) -->
@@ -87,37 +92,37 @@
             android:orientation="horizontal"
             tools:ignore="ButtonStyle">
 
-            <!-- Boton de lectura por voz con icono de altavoz y texto "Oír" (minimo 60dp para mayores) -->
+            <!-- Botón "Oír" verde claro con icono de altavoz, como el "Escuchar" de Figma (mínimo 60dp) -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnAltavoz"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/btn_min_tamano"
                 android:layout_marginEnd="@dimen/padding_general"
                 android:minWidth="@dimen/btn_min_tamano"
-                android:backgroundTint="@color/color_azul_altavoz"
+                android:backgroundTint="@color/color_primario_claro"
                 android:contentDescription="@string/desc_altavoz"
+                android:stateListAnimator="@null"
                 android:text="@string/accion_oir"
-                android:textColor="@color/color_texto_blanco"
+                android:textColor="@color/color_primario"
                 android:textSize="@dimen/texto_subtitulo"
                 app:icon="@drawable/ic_altavoz"
                 app:iconPadding="@dimen/padding_pequeno"
-                app:iconSize="@dimen/tamano_icono"
-                app:iconTint="@color/color_texto_blanco" />
+                app:iconSize="@dimen/tamano_icono_pequeno"
+                app:iconTint="@color/color_primario" />
 
-            <!-- Boton principal para unirse (cambia de color/estado desde el Adapter) -->
-            <Button
+            <!-- Botón principal verde oscuro para unirse (cambia de color/estado desde el Adapter) -->
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnMeApunto"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/btn_min_tamano"
                 android:layout_weight="1"
-                android:backgroundTint="@color/color_verde_apunto"
+                android:backgroundTint="@color/color_primario"
                 android:text="@string/accion_me_apunto"
                 android:textColor="@color/color_texto_blanco"
-                android:textSize="@dimen/texto_subtitulo"
-                android:textStyle="bold" />
+                android:textSize="@dimen/texto_subtitulo" />
 
         </LinearLayout>
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

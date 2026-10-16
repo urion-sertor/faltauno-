@@ -2,13 +2,16 @@
 <resources>
     <!-- Nombre accesible de la aplicación -->
     <string name="app_name">Falta Uno!</string>
+    <!-- Número del logo amarillo (igual que en Figma) -->
+    <string name="logo_numero" translatable="false">1</string>
 
     <!-- Títulos y subtítulos principales -->
     <string name="titulo_pantalla_principal">Partidas de hoy en el barrio</string>
     <string name="subtitulo_pantalla_principal">Toca un juego para filtrar o publica un aviso</string>
+    <string name="etiqueta_a_que_jugamos">¿A qué jugamos?</string>
     <string name="mensaje_sin_partidas">No hay partidas convocadas para este juego hoy.</string>
-    <string name="titulo_nueva_partida">Crear aviso: ¡Falta 1!</string>
-    <string name="subtitulo_nueva_partida">Rellena los datos para que otros vecinos se apunten</string>
+    <string name="titulo_nueva_partida">¿Os falta uno?</string>
+    <string name="subtitulo_nueva_partida">Crea una partida e invita a alguien del barrio a completar la mesa.</string>
 
     <!-- Nombres de los juegos populares -->
     <string name="juego_todos">Todos</string>
@@ -20,23 +23,32 @@
     <!-- Estados y acciones sin lenguaje técnico -->
     <string name="accion_me_apunto">¡Me apunto!</string>
     <string name="estado_partida_llena">Partida llena</string>
-    <string name="accion_falta_uno">¡Falta 1! (Crear aviso)</string>
-    <string name="accion_publicar">Publicar</string>
-    <string name="accion_volver">Volver atrás</string>
+    <string name="accion_falta_uno">Falta 1 · Crear partida</string>
+    <string name="accion_publicar">Falta 1 · Publicar partida</string>
+    <string name="accion_volver">Volver</string>
     <string name="accion_oir">Oír</string>
 
     <!-- Etiquetas del formulario y tarjetas -->
-    <string name="etiqueta_elige_juego">Elige juego:</string>
-    <string name="etiqueta_hora">Hora:</string>
-    <string name="etiqueta_lugar">Lugar:</string>
-    <string name="etiqueta_creador">¿Quién avisa? (Tu apodo):</string>
+    <string name="etiqueta_elige_juego">¿A qué vais a jugar?</string>
+    <string name="etiqueta_hora">¿A qué hora?</string>
+    <string name="etiqueta_lugar">¿Dónde os encontráis?</string>
+    <string name="etiqueta_creador">¿Quién avisa? (tu apodo)</string>
     <string name="pista_hora">Ejemplo: 17:00</string>
     <string name="pista_lugar">Ejemplo: Plaza Mayor</string>
     <string name="pista_creador">Ejemplo: Paco</string>
-    <string name="formato_hora">Hora: %1$s</string>
-    <string name="formato_lugar">Lugar: %1$s</string>
-    <string name="formato_plazas_libres">Plazas libres: %1$d</string>
-    <string name="formato_creador">Organiza: %1$s</string>
+    <string name="formato_hora">Hoy · %1$s</string>
+    <string name="formato_creador">Organiza %1$s</string>
+    <!-- Etiqueta amarilla de la tarjeta: "Falta 1" / "Faltan 2", o "Completa" si no quedan plazas -->
+    <plurals name="etiqueta_faltan">
+        <item quantity="one">Falta %d</item>
+        <item quantity="other">Faltan %d</item>
+    </plurals>
+    <string name="etiqueta_completa">Completa</string>
+
+    <!-- Caja amarilla y nota del formulario "Falta 1" -->
+    <string name="info_falta_titulo">Falta una persona</string>
+    <string name="info_falta_texto">Tu aviso saldrá en el tablón para que alguien del barrio se apunte.</string>
+    <string name="nota_publicar">Aparecerá en las partidas de hoy. Sin pedir teléfono ni crear una cuenta.</string>
     <string name="formato_locucion_voz">Partida de %1$s, a las %2$s, en %3$s. %4$s</string>
     <plurals name="locucion_plazas_libres">
         <item quantity="one">Queda %d plaza libre.</item>

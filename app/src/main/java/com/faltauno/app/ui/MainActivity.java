@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -19,6 +18,7 @@ import com.faltauno.app.R;
 import com.faltauno.app.data.GestorPartidas;
 import com.faltauno.app.model.Partida;
 import com.faltauno.app.voz.GestorVoz;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
 
@@ -33,12 +33,12 @@ public class MainActivity extends AppCompatActivity implements PartidasAdapter.O
     private GestorPartidas gestorPartidas;
     private GestorVoz gestorVoz;
 
-    private Button btnFiltroTodos;
-    private Button btnFiltroDomino;
-    private Button btnFiltroCartas;
-    private Button btnFiltroPetanca;
-    private Button btnFiltroParchis;
-    private Button btnFaltaUno;
+    private MaterialButton btnFiltroTodos;
+    private MaterialButton btnFiltroDomino;
+    private MaterialButton btnFiltroCartas;
+    private MaterialButton btnFiltroPetanca;
+    private MaterialButton btnFiltroParchis;
+    private MaterialButton btnFaltaUno;
 
     // Abre la pantalla "Falta 1" y, si se publica una partida, muestra el aviso verde al volver
     private final ActivityResultLauncher<Intent> abrirNuevaPartida = registerForActivityResult(
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements PartidasAdapter.O
         tvSinPartidas.setVisibility(sinPartidas ? View.VISIBLE : View.GONE);
     }
 
-    // Resalta el botón del juego elegido (azul oscuro y letra blanca) frente a los demás (blancos con letra azul).
+    // Resalta la casilla del juego elegido con un borde verde grueso; las demás quedan con un borde fino.
     private void marcarFiltroSeleccionado() {
         pintarBotonFiltro(btnFiltroTodos, getString(R.string.juego_todos));
         pintarBotonFiltro(btnFiltroDomino, getString(R.string.juego_domino));
@@ -125,19 +125,18 @@ public class MainActivity extends AppCompatActivity implements PartidasAdapter.O
         pintarBotonFiltro(btnFiltroParchis, getString(R.string.juego_parchis));
     }
 
-    // Cambia el color de fondo y de letra de un botón de filtro según si es el juego seleccionado o no.
-    private void pintarBotonFiltro(Button boton, String juego) {
-        int colorFondo;
-        int colorTexto;
-        if (juego.equals(juegoSeleccionado)) {
-            colorFondo = ContextCompat.getColor(this, R.color.color_primario_oscuro);
-            colorTexto = ContextCompat.getColor(this, R.color.color_texto_blanco);
-        } else {
-            colorFondo = ContextCompat.getColor(this, R.color.color_fondo_tarjeta);
-            colorTexto = ContextCompat.getColor(this, R.color.color_primario);
-        }
-        boton.setBackgroundTintList(ColorStateList.valueOf(colorFondo));
-        boton.setTextColor(colorTexto);
+    // Cambia el borde de una casilla de filtro según si es el juego seleccionado o no.
+    // Cada casilla mantiene su color pastel de Figma; la elegida se marca con borde verde grueso.
+    private void pintarBotonFiltro(MaterialButton boton, String juego) {
+        boolean seleccionado = juego.equals(juegoSeleccionado);
+        int colorBorde = ContextCompat.getColor(this,
+                seleccionado ? R.color.color_primario : R.color.color_borde);
+        int anchoBorde = getResources().getDimensionPixelSize(
+                seleccionado ? R.dimen.borde_seleccion : R.dimen.borde_fino);
+        boton.setStrokeColor(ColorStateList.valueOf(colorBorde));
+        boton.setStrokeWidth(anchoBorde);
+        // El lector de pantalla dirá "seleccionado" en la casilla elegida
+        boton.setSelected(seleccionado);
     }
 
     // Configura el botón inferior para abrir la pantalla de creación de aviso 'Falta 1'.

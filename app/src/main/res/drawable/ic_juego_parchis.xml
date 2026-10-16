@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Parchís: dado de tres puntos -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:pathData="M5,3h14a2,2 0,0 1,2 2v14a2,2 0,0 1,-2 2h-14a2,2 0,0 1,-2 -2v-14a2,2 0,0 1,2 -2z"
+        android:strokeWidth="1.75"
+        android:strokeColor="@color/color_primario"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:fillColor="@color/color_primario"
+        android:pathData="M16,8m-1.5,0a1.5,1.5 0 1,0 3.0,0a1.5,1.5 0 1,0 -3.0,0" />
+    <path
+        android:fillColor="@color/color_primario"
+        android:pathData="M12,12m-1.5,0a1.5,1.5 0 1,0 3.0,0a1.5,1.5 0 1,0 -3.0,0" />
+    <path
+        android:fillColor="@color/color_primario"
+        android:pathData="M8,16m-1.5,0a1.5,1.5 0 1,0 3.0,0a1.5,1.5 0 1,0 -3.0,0" />
+</vector>
