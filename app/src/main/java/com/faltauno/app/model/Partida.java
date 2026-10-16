@@ -1,9 +1,20 @@
 package com.faltauno.app.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Modelo que representa una partida de juego organizada en el barrio.
  */
 public class Partida {
+
+    // Nombres de los campos cuando la partida se guarda en formato JSON.
+    private static final String CLAVE_ID = "id";
+    private static final String CLAVE_JUEGO = "juego";
+    private static final String CLAVE_LUGAR = "lugar";
+    private static final String CLAVE_HORA = "hora";
+    private static final String CLAVE_PLAZAS_LIBRES = "plazasLibres";
+    private static final String CLAVE_CREADOR = "creador";
 
     private int id;
     private String juego;
@@ -22,7 +33,7 @@ public class Partida {
         this.juego = juego;
         this.lugar = lugar;
         this.hora = hora;
-        this.plazasLibres = plazasLibres;
+        setPlazasLibres(plazasLibres);
         this.creador = creador;
     }
 
@@ -71,9 +82,9 @@ public class Partida {
         return plazasLibres;
     }
 
-    // Actualiza el número de plazas disponibles.
+    // Establece las plazas libres sin permitir nunca un número negativo.
     public void setPlazasLibres(int plazasLibres) {
-        this.plazasLibres = plazasLibres;
+        this.plazasLibres = Math.max(0, plazasLibres);
     }
 
     // Devuelve el apodo de la persona que organizó la partida.
@@ -89,5 +100,29 @@ public class Partida {
     // Comprueba si la partida ya no tiene plazas libres disponibles.
     public boolean estaLlena() {
         return this.plazasLibres <= 0;
+    }
+
+    // Convierte la partida en un objeto JSON para poder guardarla en el móvil.
+    public JSONObject aJson() throws JSONException {
+        JSONObject json = new JSONObject();
+        json.put(CLAVE_ID, id);
+        json.put(CLAVE_JUEGO, juego);
+        json.put(CLAVE_LUGAR, lugar);
+        json.put(CLAVE_HORA, hora);
+        json.put(CLAVE_PLAZAS_LIBRES, plazasLibres);
+        json.put(CLAVE_CREADOR, creador);
+        return json;
+    }
+
+    // Crea una partida a partir de un objeto JSON guardado en el móvil.
+    public static Partida desdeJson(JSONObject json) throws JSONException {
+        return new Partida(
+                json.getInt(CLAVE_ID),
+                json.getString(CLAVE_JUEGO),
+                json.getString(CLAVE_LUGAR),
+                json.getString(CLAVE_HORA),
+                json.getInt(CLAVE_PLAZAS_LIBRES),
+                json.optString(CLAVE_CREADOR, "Vecino")
+        );
     }
 }
