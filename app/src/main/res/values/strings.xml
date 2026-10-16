@@ -42,6 +42,8 @@
     <string name="toast_apuntado_exito">¡Me apunto! Te esperan a las %1$s en %2$s.</string>
     <string name="toast_partida_llena">Esta partida ya está completa.</string>
     <string name="toast_faltan_campos">Por favor, escribe la hora y el lugar.</string>
+    <string name="toast_hora_no_valida">Escribe la hora con números, por ejemplo: 17:00</string>
+    <string name="toast_hora_pasada">Esa hora ya ha pasado. Elige una hora más tarde.</string>
     <string name="toast_partida_publicada">¡Partida publicada con éxito!</string>
     <string name="toast_error_voz">No se ha podido iniciar la voz en español.</string>
 

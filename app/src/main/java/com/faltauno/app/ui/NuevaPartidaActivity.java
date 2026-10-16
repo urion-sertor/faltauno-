@@ -82,6 +82,18 @@ public class NuevaPartidaActivity extends AppCompatActivity {
                 return;
             }
 
+            // La hora tiene que entenderse (por ejemplo "17:00") para poder mostrarla en el tablón
+            if (Partida.convertirHoraAMinutos(hora) < 0) {
+                Toast.makeText(this, R.string.toast_hora_no_valida, Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            // Si la hora ya ha pasado, la partida no se vería en el tablón: avisamos y no publicamos
+            if (gestorPartidas.esHoraPasada(hora)) {
+                Toast.makeText(this, R.string.toast_hora_pasada, Toast.LENGTH_LONG).show();
+                return;
+            }
+
             if (creador.isEmpty()) {
                 creador = "Vecino";
             }
