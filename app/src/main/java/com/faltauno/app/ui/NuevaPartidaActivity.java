@@ -59,10 +59,11 @@ public class NuevaPartidaActivity extends AppCompatActivity {
         };
         ArrayAdapter<String> adaptadorJuegos = new ArrayAdapter<>(
                 this,
-                android.R.layout.simple_spinner_item,
+                R.layout.item_spinner_juego,
                 listaJuegos
         );
-        adaptadorJuegos.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Opciones de la lista con letra grande y 60dp de alto, igual que el resto de campos
+        adaptadorJuegos.setDropDownViewResource(R.layout.item_spinner_desplegable);
         spJuegos.setAdapter(adaptadorJuegos);
     }
 

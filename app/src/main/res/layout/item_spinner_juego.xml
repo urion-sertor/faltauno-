@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Juego elegido dentro del selector: letra grande y flecha para indicar que se puede desplegar -->
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@android:id/text1"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/btn_min_tamano"
+    android:ellipsize="end"
+    android:gravity="center_vertical"
+    android:maxLines="1"
+    android:paddingStart="@dimen/padding_general"
+    android:paddingEnd="@dimen/padding_general"
+    android:textColor="@color/color_texto_principal"
+    android:textSize="@dimen/texto_base"
+    app:drawableEndCompat="@android:drawable/arrow_down_float"
+    app:drawableTint="@color/color_texto_principal"
+    tools:text="Dominó" />

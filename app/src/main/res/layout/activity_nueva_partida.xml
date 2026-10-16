@@ -59,10 +59,9 @@
                 android:layout_height="@dimen/btn_min_tamano"
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="@dimen/padding_general"
-                android:background="@android:drawable/btn_dropdown"
+                android:background="@drawable/fondo_campo"
                 android:contentDescription="@string/etiqueta_elige_juego"
-                android:paddingStart="@dimen/padding_pequeno"
-                android:paddingEnd="@dimen/padding_pequeno" />
+                android:popupBackground="@color/color_fondo_tarjeta" />
 
             <!-- Campo 2: Hora de la partida -->
             <TextView
@@ -79,13 +78,14 @@
                 android:layout_height="@dimen/btn_min_tamano"
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="@dimen/padding_general"
-                android:background="@android:drawable/editbox_background"
+                android:background="@drawable/fondo_campo"
                 android:hint="@string/pista_hora"
                 android:importantForAutofill="no"
                 android:inputType="time"
                 android:paddingStart="@dimen/padding_general"
                 android:paddingEnd="@dimen/padding_general"
                 android:textColor="@color/color_texto_principal"
+                android:textColorHint="@color/color_gris_lleno"
                 android:textSize="@dimen/texto_base" />
 
             <!-- Campo 3: Lugar de la partida -->
@@ -103,13 +103,14 @@
                 android:layout_height="@dimen/btn_min_tamano"
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="@dimen/padding_general"
-                android:background="@android:drawable/editbox_background"
+                android:background="@drawable/fondo_campo"
                 android:hint="@string/pista_lugar"
                 android:importantForAutofill="no"
                 android:inputType="textCapWords"
                 android:paddingStart="@dimen/padding_general"
                 android:paddingEnd="@dimen/padding_general"
                 android:textColor="@color/color_texto_principal"
+                android:textColorHint="@color/color_gris_lleno"
                 android:textSize="@dimen/texto_base" />
 
             <!-- Campo 4: Nombre o apodo de quien avisa -->
@@ -127,13 +128,14 @@
                 android:layout_height="@dimen/btn_min_tamano"
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="@dimen/padding_grande"
-                android:background="@android:drawable/editbox_background"
+                android:background="@drawable/fondo_campo"
                 android:hint="@string/pista_creador"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
                 android:paddingStart="@dimen/padding_general"
                 android:paddingEnd="@dimen/padding_general"
                 android:textColor="@color/color_texto_principal"
+                android:textColorHint="@color/color_gris_lleno"
                 android:textSize="@dimen/texto_base" />
 
             <!-- Botón gigante Publicar (Verde accesible) -->
