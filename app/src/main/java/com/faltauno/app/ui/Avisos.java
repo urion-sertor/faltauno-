@@ -11,7 +11,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 /**
  * Muestra avisos grandes y legibles (Snackbar) con el mismo estilo en todas las pantallas.
- * Verde para las cosas que salen bien y gris oscuro para los errores o avisos.
+ * Verde oscuro para las cosas que salen bien y verde casi negro para los errores o avisos.
  */
 public final class Avisos {
 
@@ -21,12 +21,12 @@ public final class Avisos {
 
     // Muestra un aviso verde de que algo ha salido bien (por ejemplo, al apuntarse).
     public static void mostrarExito(View vista, String mensaje, View ancla) {
-        mostrar(vista, mensaje, R.color.color_verde_apunto, ancla);
+        mostrar(vista, mensaje, R.color.color_primario, ancla);
     }
 
-    // Muestra un aviso gris oscuro de error o de algo que el usuario tiene que corregir.
+    // Muestra un aviso oscuro de error o de algo que el usuario tiene que corregir.
     public static void mostrarError(View vista, String mensaje, View ancla) {
-        mostrar(vista, mensaje, R.color.color_texto_secundario, ancla);
+        mostrar(vista, mensaje, R.color.color_texto_principal, ancla);
     }
 
     // Crea el Snackbar con letra grande, texto blanco y el color de fondo indicado.

@@ -1,22 +1,61 @@
 <resources>
-    <!-- Tema accesible de alto contraste para personas mayores -->
+    <!-- Tema accesible con los colores del prototipo de Figma (fondo crema y verde oscuro) -->
     <style name="Theme.FaltaUno" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Colores primarios de la aplicación -->
         <item name="colorPrimary">@color/color_primario</item>
-        <item name="colorPrimaryVariant">@color/color_primario_oscuro</item>
+        <item name="colorPrimaryVariant">@color/color_primario</item>
         <item name="colorOnPrimary">@color/color_texto_blanco</item>
 
         <!-- Colores secundarios de realce -->
-        <item name="colorSecondary">@color/color_secundario</item>
+        <item name="colorSecondary">@color/color_primario</item>
         <item name="colorOnSecondary">@color/color_texto_blanco</item>
 
-        <!-- Fondo claro y textos de alto contraste -->
+        <!-- Fondo crema y textos de alto contraste -->
         <item name="android:windowBackground">@color/color_fondo</item>
         <item name="android:textColorPrimary">@color/color_texto_principal</item>
         <item name="android:textColorSecondary">@color/color_texto_secundario</item>
 
-        <!-- Barra de estado del sistema Android -->
-        <item name="android:statusBarColor">@color/color_primario_oscuro</item>
-        <item name="android:windowLightStatusBar">false</item>
+        <!-- Barra de estado crema con iconos oscuros, como en Figma -->
+        <item name="android:statusBarColor">@color/color_fondo</item>
+        <item name="android:windowLightStatusBar">true</item>
+
+        <!-- Todos los botones con el mismo estilo -->
+        <item name="materialButtonStyle">@style/Widget.FaltaUno.Boton</item>
+    </style>
+
+    <!-- Botón del Figma: esquinas redondeadas, texto en negrita sin MAYÚSCULAS y sin márgenes ocultos -->
+    <style name="Widget.FaltaUno.Boton" parent="Widget.MaterialComponents.Button">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="cornerRadius">@dimen/radio_boton</item>
+    </style>
+
+    <!-- Botón blanco con borde verde (como "Falta 1 · Crear partida" en Figma) -->
+    <style name="Widget.FaltaUno.Boton.Contorno" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="cornerRadius">@dimen/radio_boton</item>
+        <item name="backgroundTint">@color/color_fondo_tarjeta</item>
+        <item name="strokeColor">@color/color_primario</item>
+        <item name="strokeWidth">@dimen/borde_normal</item>
+        <item name="android:textColor">@color/color_primario</item>
+        <item name="iconTint">@color/color_primario</item>
+    </style>
+
+    <!-- Botón de solo texto verde con flecha (como "← Volver" en Figma) -->
+    <style name="Widget.FaltaUno.Boton.Texto" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:textColor">@color/color_primario</item>
+        <item name="iconTint">@color/color_primario</item>
     </style>
 </resources>

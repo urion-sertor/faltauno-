@@ -7,41 +7,51 @@
     android:orientation="vertical"
     tools:context=".ui.MainActivity">
 
-    <!-- Cabecera principal accesible con títulos grandes -->
-    <LinearLayout
+    <!-- Cabecera con el logo "1" amarillo y "Falta Uno!" en verde (igual en todas las pantallas) -->
+    <include layout="@layout/cabecera_logo" />
+
+    <!-- Título y explicación de la pantalla -->
+    <TextView
+        android:id="@+id/tvTituloCabecera"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/color_primario"
-        android:orientation="vertical"
-        android:padding="@dimen/padding_general">
+        android:paddingStart="@dimen/padding_general"
+        android:paddingEnd="@dimen/padding_general"
+        android:text="@string/titulo_pantalla_principal"
+        android:textColor="@color/color_texto_principal"
+        android:textSize="@dimen/texto_grande"
+        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tvTituloCabecera"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/titulo_pantalla_principal"
-            android:textColor="@color/color_texto_blanco"
-            android:textSize="@dimen/texto_titulo"
-            android:textStyle="bold" />
+    <TextView
+        android:id="@+id/tvSubtituloCabecera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/espacio_minimo"
+        android:paddingStart="@dimen/padding_general"
+        android:paddingEnd="@dimen/padding_general"
+        android:text="@string/subtitulo_pantalla_principal"
+        android:textColor="@color/color_texto_secundario"
+        android:textSize="@dimen/texto_base" />
 
-        <TextView
-            android:id="@+id/tvSubtituloCabecera"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@string/subtitulo_pantalla_principal"
-            android:textColor="@color/color_texto_blanco"
-            android:textSize="@dimen/texto_base" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_general"
+        android:paddingStart="@dimen/padding_general"
+        android:paddingEnd="@dimen/padding_general"
+        android:text="@string/etiqueta_a_que_jugamos"
+        android:textColor="@color/color_texto_principal"
+        android:textSize="@dimen/texto_subtitulo"
+        android:textStyle="bold" />
 
-    </LinearLayout>
-
-    <!-- Fila desplazable con botones de filtro gigantes -->
+    <!-- Casillas de colores con icono para filtrar por juego (como en Figma), en una fila desplazable -->
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/padding_pequeno"
+        android:clipToPadding="false"
+        android:paddingStart="@dimen/padding_general"
         android:paddingTop="@dimen/padding_pequeno"
-        android:paddingEnd="@dimen/padding_pequeno"
+        android:paddingEnd="@dimen/padding_general"
         android:paddingBottom="@dimen/padding_pequeno"
         android:scrollbars="none">
 
@@ -54,57 +64,92 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFiltroTodos"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/btn_min_tamano"
+                android:layout_width="@dimen/ancho_casilla"
+                android:layout_height="@dimen/alto_casilla"
                 android:layout_marginEnd="@dimen/padding_pequeno"
-                android:minWidth="@dimen/btn_min_tamano"
+                android:backgroundTint="@color/color_pastel_todos"
+                android:stateListAnimator="@null"
                 android:text="@string/juego_todos"
+                android:textColor="@color/color_texto_principal"
                 android:textSize="@dimen/texto_base"
+                app:cornerRadius="@dimen/radio_esquinas"
+                app:icon="@drawable/ic_juego_todos"
+                app:iconGravity="top"
+                app:iconSize="@dimen/tamano_icono"
+                app:iconTint="@color/color_primario"
                 app:strokeColor="@color/color_borde"
-                app:strokeWidth="2dp" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnFiltroDomino"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/btn_min_tamano"
-                android:layout_marginEnd="@dimen/padding_pequeno"
-                android:minWidth="@dimen/btn_min_tamano"
-                android:text="@string/juego_domino"
-                android:textSize="@dimen/texto_base"
-                app:strokeColor="@color/color_borde"
-                app:strokeWidth="2dp" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnFiltroCartas"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/btn_min_tamano"
-                android:layout_marginEnd="@dimen/padding_pequeno"
-                android:minWidth="@dimen/btn_min_tamano"
-                android:text="@string/juego_cartas"
-                android:textSize="@dimen/texto_base"
-                app:strokeColor="@color/color_borde"
-                app:strokeWidth="2dp" />
+                app:strokeWidth="@dimen/borde_fino" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFiltroPetanca"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/btn_min_tamano"
+                android:layout_width="@dimen/ancho_casilla"
+                android:layout_height="@dimen/alto_casilla"
                 android:layout_marginEnd="@dimen/padding_pequeno"
-                android:minWidth="@dimen/btn_min_tamano"
+                android:backgroundTint="@color/color_pastel_petanca"
+                android:stateListAnimator="@null"
                 android:text="@string/juego_petanca"
+                android:textColor="@color/color_texto_principal"
                 android:textSize="@dimen/texto_base"
+                app:cornerRadius="@dimen/radio_esquinas"
+                app:icon="@drawable/ic_juego_petanca"
+                app:iconGravity="top"
+                app:iconSize="@dimen/tamano_icono"
+                app:iconTint="@color/color_primario"
                 app:strokeColor="@color/color_borde"
-                app:strokeWidth="2dp" />
+                app:strokeWidth="@dimen/borde_fino" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnFiltroDomino"
+                android:layout_width="@dimen/ancho_casilla"
+                android:layout_height="@dimen/alto_casilla"
+                android:layout_marginEnd="@dimen/padding_pequeno"
+                android:backgroundTint="@color/color_pastel_domino"
+                android:stateListAnimator="@null"
+                android:text="@string/juego_domino"
+                android:textColor="@color/color_texto_principal"
+                android:textSize="@dimen/texto_base"
+                app:cornerRadius="@dimen/radio_esquinas"
+                app:icon="@drawable/ic_juego_domino"
+                app:iconGravity="top"
+                app:iconSize="@dimen/tamano_icono"
+                app:iconTint="@color/color_primario"
+                app:strokeColor="@color/color_borde"
+                app:strokeWidth="@dimen/borde_fino" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnFiltroCartas"
+                android:layout_width="@dimen/ancho_casilla"
+                android:layout_height="@dimen/alto_casilla"
+                android:layout_marginEnd="@dimen/padding_pequeno"
+                android:backgroundTint="@color/color_pastel_cartas"
+                android:stateListAnimator="@null"
+                android:text="@string/juego_cartas"
+                android:textColor="@color/color_texto_principal"
+                android:textSize="@dimen/texto_base"
+                app:cornerRadius="@dimen/radio_esquinas"
+                app:icon="@drawable/ic_juego_cartas"
+                app:iconGravity="top"
+                app:iconSize="@dimen/tamano_icono"
+                app:iconTint="@color/color_primario"
+                app:strokeColor="@color/color_borde"
+                app:strokeWidth="@dimen/borde_fino" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFiltroParchis"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/btn_min_tamano"
-                android:minWidth="@dimen/btn_min_tamano"
+                android:layout_width="@dimen/ancho_casilla"
+                android:layout_height="@dimen/alto_casilla"
+                android:backgroundTint="@color/color_amarillo"
+                android:stateListAnimator="@null"
                 android:text="@string/juego_parchis"
+                android:textColor="@color/color_texto_principal"
                 android:textSize="@dimen/texto_base"
+                app:cornerRadius="@dimen/radio_esquinas"
+                app:icon="@drawable/ic_juego_parchis"
+                app:iconGravity="top"
+                app:iconSize="@dimen/tamano_icono"
+                app:iconTint="@color/color_primario"
                 app:strokeColor="@color/color_borde"
-                app:strokeWidth="2dp" />
+                app:strokeWidth="@dimen/borde_fino" />
 
         </LinearLayout>
     </HorizontalScrollView>
@@ -138,7 +183,7 @@
 
     </FrameLayout>
 
-    <!-- Botón gigante y llamativo 'Falta 1' fijado en la parte inferior -->
+    <!-- Botón 'Falta 1 · Crear partida' fijo abajo: blanco con borde verde como en Figma -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -146,16 +191,17 @@
         android:elevation="@dimen/elevacion_tarjeta"
         android:padding="@dimen/padding_general">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnFaltaUno"
+            style="@style/Widget.FaltaUno.Boton.Contorno"
             android:layout_width="match_parent"
             android:layout_height="@dimen/btn_min_tamano"
-            android:backgroundTint="@color/color_naranja_falta_uno"
             android:contentDescription="@string/desc_boton_falta_uno"
             android:text="@string/accion_falta_uno"
-            android:textColor="@color/color_texto_blanco"
             android:textSize="@dimen/texto_subtitulo"
-            android:textStyle="bold" />
+            app:icon="@drawable/ic_mas"
+            app:iconGravity="textStart"
+            app:iconSize="@dimen/tamano_icono_pequeno" />
 
     </LinearLayout>
 

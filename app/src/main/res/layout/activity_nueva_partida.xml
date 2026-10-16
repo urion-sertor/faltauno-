@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,38 +12,47 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Cabecera grande accesible -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/color_primario"
-            android:orientation="vertical"
-            android:padding="@dimen/padding_general">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/titulo_nueva_partida"
-                android:textColor="@color/color_texto_blanco"
-                android:textSize="@dimen/texto_titulo"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="@string/subtitulo_nueva_partida"
-                android:textColor="@color/color_texto_blanco"
-                android:textSize="@dimen/texto_base" />
-
-        </LinearLayout>
+        <!-- Cabecera con el logo "1" amarillo y "Falta Uno!" en verde (igual en todas las pantallas) -->
+        <include layout="@layout/cabecera_logo" />
 
         <!-- Contenedor del formulario con espaciado generoso -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/padding_general">
+            android:paddingStart="@dimen/padding_general"
+            android:paddingEnd="@dimen/padding_general"
+            android:paddingBottom="@dimen/padding_grande">
+
+            <!-- Botón "← Volver" arriba, como en Figma -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnVolverAtras"
+                style="@style/Widget.FaltaUno.Boton.Texto"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/btn_min_tamano"
+                android:minWidth="@dimen/btn_min_tamano"
+                android:text="@string/accion_volver"
+                android:textSize="@dimen/texto_base"
+                app:icon="@drawable/ic_volver"
+                app:iconSize="@dimen/tamano_icono_pequeno" />
+
+            <!-- Título y explicación -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/titulo_nueva_partida"
+                android:textColor="@color/color_texto_principal"
+                android:textSize="@dimen/texto_grande"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacio_minimo"
+                android:layout_marginBottom="@dimen/padding_general"
+                android:text="@string/subtitulo_nueva_partida"
+                android:textColor="@color/color_texto_principal"
+                android:textSize="@dimen/texto_base" />
 
             <!-- Campo 1: Selección de juego -->
             <TextView
@@ -57,7 +67,7 @@
                 android:id="@+id/spJuegos"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/btn_min_tamano"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="@dimen/padding_pequeno"
                 android:layout_marginBottom="@dimen/padding_general"
                 android:background="@drawable/fondo_campo"
                 android:contentDescription="@string/etiqueta_elige_juego"
@@ -76,17 +86,20 @@
                 android:id="@+id/etHoraPartida"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/btn_min_tamano"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="@dimen/padding_pequeno"
                 android:layout_marginBottom="@dimen/padding_general"
                 android:background="@drawable/fondo_campo"
+                android:drawablePadding="@dimen/espacio_icono"
                 android:hint="@string/pista_hora"
                 android:importantForAutofill="no"
                 android:inputType="time"
                 android:paddingStart="@dimen/padding_general"
                 android:paddingEnd="@dimen/padding_general"
                 android:textColor="@color/color_texto_principal"
-                android:textColorHint="@color/color_gris_lleno"
-                android:textSize="@dimen/texto_base" />
+                android:textColorHint="@color/color_texto_pista"
+                android:textSize="@dimen/texto_subtitulo"
+                android:textStyle="bold"
+                app:drawableStartCompat="@drawable/ic_reloj" />
 
             <!-- Campo 3: Lugar de la partida -->
             <TextView
@@ -101,17 +114,20 @@
                 android:id="@+id/etLugarPartida"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/btn_min_tamano"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="@dimen/padding_pequeno"
                 android:layout_marginBottom="@dimen/padding_general"
                 android:background="@drawable/fondo_campo"
+                android:drawablePadding="@dimen/espacio_icono"
                 android:hint="@string/pista_lugar"
                 android:importantForAutofill="no"
                 android:inputType="textCapWords"
                 android:paddingStart="@dimen/padding_general"
                 android:paddingEnd="@dimen/padding_general"
                 android:textColor="@color/color_texto_principal"
-                android:textColorHint="@color/color_gris_lleno"
-                android:textSize="@dimen/texto_base" />
+                android:textColorHint="@color/color_texto_pista"
+                android:textSize="@dimen/texto_subtitulo"
+                android:textStyle="bold"
+                app:drawableStartCompat="@drawable/ic_lugar" />
 
             <!-- Campo 4: Nombre o apodo de quien avisa -->
             <TextView
@@ -126,38 +142,85 @@
                 android:id="@+id/etCreadorPartida"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/btn_min_tamano"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="@dimen/padding_pequeno"
                 android:layout_marginBottom="@dimen/padding_grande"
                 android:background="@drawable/fondo_campo"
+                android:drawablePadding="@dimen/espacio_icono"
                 android:hint="@string/pista_creador"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
                 android:paddingStart="@dimen/padding_general"
                 android:paddingEnd="@dimen/padding_general"
                 android:textColor="@color/color_texto_principal"
-                android:textColorHint="@color/color_gris_lleno"
-                android:textSize="@dimen/texto_base" />
+                android:textColorHint="@color/color_texto_pista"
+                android:textSize="@dimen/texto_subtitulo"
+                android:textStyle="bold"
+                app:drawableStartCompat="@drawable/ic_persona" />
 
-            <!-- Botón gigante Publicar (Verde accesible) -->
-            <Button
+            <!-- Caja amarilla informativa: "1 · Falta una persona" (texto oscuro sobre amarillo) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_grande"
+                android:background="@drawable/fondo_caja_amarilla"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_general">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/padding_general"
+                    android:importantForAccessibility="no"
+                    android:text="@string/logo_numero"
+                    android:textColor="@color/color_texto_principal"
+                    android:textSize="@dimen/texto_numero"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/info_falta_titulo"
+                        android:textColor="@color/color_texto_principal"
+                        android:textSize="@dimen/texto_base"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/info_falta_texto"
+                        android:textColor="@color/color_texto_principal"
+                        android:textSize="@dimen/texto_base" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Botón principal verde oscuro "Falta 1 · Publicar partida" -->
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnPublicarPartida"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/btn_min_tamano"
-                android:backgroundTint="@color/color_verde_apunto"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/btn_min_tamano"
+                android:backgroundTint="@color/color_primario"
                 android:text="@string/accion_publicar"
                 android:textColor="@color/color_texto_blanco"
-                android:textSize="@dimen/texto_titulo"
-                android:textStyle="bold" />
+                android:textSize="@dimen/texto_subtitulo"
+                app:icon="@drawable/ic_mas"
+                app:iconGravity="textStart"
+                app:iconSize="@dimen/tamano_icono_pequeno"
+                app:iconTint="@color/color_texto_blanco" />
 
-            <!-- Botón Volver -->
-            <Button
-                android:id="@+id/btnVolverAtras"
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/btn_min_tamano"
-                android:layout_marginTop="@dimen/padding_general"
-                android:backgroundTint="@color/color_gris_lleno"
-                android:text="@string/accion_volver"
-                android:textColor="@color/color_texto_blanco"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_pequeno"
+                android:text="@string/nota_publicar"
+                android:textColor="@color/color_texto_secundario"
                 android:textSize="@dimen/texto_base" />
 
         </LinearLayout>

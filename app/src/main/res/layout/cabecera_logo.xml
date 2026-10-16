@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Cabecera común como en Figma: cuadrado amarillo con el "1" y el nombre "Falta Uno!" en verde -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/padding_general"
+    android:paddingTop="@dimen/padding_general"
+    android:paddingEnd="@dimen/padding_general"
+    android:paddingBottom="@dimen/padding_pequeno">
+
+    <!-- Logo decorativo: el lector de pantalla ya lee el nombre de la app al lado -->
+    <TextView
+        android:layout_width="@dimen/tamano_logo"
+        android:layout_height="@dimen/tamano_logo"
+        android:background="@drawable/fondo_logo"
+        android:gravity="center"
+        android:importantForAccessibility="no"
+        android:rotation="-6"
+        android:text="@string/logo_numero"
+        android:textColor="@color/color_texto_principal"
+        android:textSize="@dimen/texto_titulo"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/espacio_icono"
+        android:text="@string/app_name"
+        android:textColor="@color/color_primario"
+        android:textSize="@dimen/texto_grande"
+        android:textStyle="bold" />
+
+</LinearLayout>

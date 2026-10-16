@@ -10,5 +10,5 @@
     android:paddingStart="@dimen/padding_general"
     android:paddingEnd="@dimen/padding_general"
     android:textColor="@color/color_texto_principal"
-    android:textSize="@dimen/texto_base"
+    android:textSize="@dimen/texto_subtitulo"
     tools:text="Dominó" />

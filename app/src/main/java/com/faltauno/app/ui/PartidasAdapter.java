@@ -64,9 +64,20 @@ public class PartidasAdapter extends RecyclerView.Adapter<PartidasAdapter.Partid
         // Cargamos los datos de la partida
         holder.tvNombreJuego.setText(p.getJuego());
         holder.tvHoraPartida.setText(context.getString(R.string.formato_hora, p.getHora()));
-        holder.tvLugarPartida.setText(context.getString(R.string.formato_lugar, p.getLugar()));
-        holder.tvPlazasLibres.setText(context.getString(R.string.formato_plazas_libres, p.getPlazasLibres()));
+        holder.tvLugarPartida.setText(p.getLugar());
         holder.tvCreadorPartida.setText(context.getString(R.string.formato_creador, p.getCreador()));
+
+        // Etiqueta como en Figma: amarilla con "Falta 1" / "Faltan 2", o verde claro con "Completa"
+        if (p.estaLlena()) {
+            holder.tvPlazasLibres.setText(context.getString(R.string.etiqueta_completa));
+            holder.tvPlazasLibres.setBackgroundTintList(ColorStateList.valueOf(
+                    ContextCompat.getColor(context, R.color.color_primario_claro)));
+        } else {
+            holder.tvPlazasLibres.setText(context.getResources().getQuantityString(
+                    R.plurals.etiqueta_faltan, p.getPlazasLibres(), p.getPlazasLibres()));
+            holder.tvPlazasLibres.setBackgroundTintList(ColorStateList.valueOf(
+                    ContextCompat.getColor(context, R.color.color_amarillo)));
+        }
 
         // Control visual del boton de apuntarse segun las plazas
         if (p.estaLlena()) {
@@ -80,7 +91,8 @@ public class PartidasAdapter extends RecyclerView.Adapter<PartidasAdapter.Partid
             holder.btnMeApunto.setText(context.getString(R.string.accion_me_apunto));
             holder.btnMeApunto.setEnabled(true);
             holder.btnMeApunto.setBackgroundTintList(ColorStateList.valueOf(
-                    ContextCompat.getColor(context, R.color.color_verde_apunto)));
+                    ContextCompat.getColor(context, R.color.color_primario)));
+            holder.btnMeApunto.setTextColor(ContextCompat.getColor(context, R.color.color_texto_blanco));
         }
 
         // Accion al pulsar me apunto
