@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -50,49 +51,59 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFiltroTodos"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/btn_min_tamano"
                 android:layout_marginEnd="@dimen/padding_pequeno"
                 android:minWidth="@dimen/btn_min_tamano"
                 android:text="@string/juego_todos"
-                android:textSize="@dimen/texto_base" />
+                android:textSize="@dimen/texto_base"
+                app:strokeColor="@color/color_borde"
+                app:strokeWidth="2dp" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFiltroDomino"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/btn_min_tamano"
                 android:layout_marginEnd="@dimen/padding_pequeno"
                 android:minWidth="@dimen/btn_min_tamano"
                 android:text="@string/juego_domino"
-                android:textSize="@dimen/texto_base" />
+                android:textSize="@dimen/texto_base"
+                app:strokeColor="@color/color_borde"
+                app:strokeWidth="2dp" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFiltroCartas"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/btn_min_tamano"
                 android:layout_marginEnd="@dimen/padding_pequeno"
                 android:minWidth="@dimen/btn_min_tamano"
                 android:text="@string/juego_cartas"
-                android:textSize="@dimen/texto_base" />
+                android:textSize="@dimen/texto_base"
+                app:strokeColor="@color/color_borde"
+                app:strokeWidth="2dp" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFiltroPetanca"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/btn_min_tamano"
                 android:layout_marginEnd="@dimen/padding_pequeno"
                 android:minWidth="@dimen/btn_min_tamano"
                 android:text="@string/juego_petanca"
-                android:textSize="@dimen/texto_base" />
+                android:textSize="@dimen/texto_base"
+                app:strokeColor="@color/color_borde"
+                app:strokeWidth="2dp" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFiltroParchis"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/btn_min_tamano"
                 android:minWidth="@dimen/btn_min_tamano"
                 android:text="@string/juego_parchis"
-                android:textSize="@dimen/texto_base" />
+                android:textSize="@dimen/texto_base"
+                app:strokeColor="@color/color_borde"
+                app:strokeWidth="2dp" />
 
         </LinearLayout>
     </HorizontalScrollView>

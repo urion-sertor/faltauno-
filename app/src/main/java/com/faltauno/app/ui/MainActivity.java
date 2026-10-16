@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements PartidasAdapter.O
         tvSinPartidas.setVisibility(sinPartidas ? View.VISIBLE : View.GONE);
     }
 
-    // Pinta el botón del juego elegido con un azul más oscuro y los demás con el azul normal.
+    // Resalta el botón del juego elegido (azul oscuro y letra blanca) frente a los demás (blancos con letra azul).
     private void marcarFiltroSeleccionado() {
         pintarBotonFiltro(btnFiltroTodos, getString(R.string.juego_todos));
         pintarBotonFiltro(btnFiltroDomino, getString(R.string.juego_domino));
@@ -114,15 +114,19 @@ public class MainActivity extends AppCompatActivity implements PartidasAdapter.O
         pintarBotonFiltro(btnFiltroParchis, getString(R.string.juego_parchis));
     }
 
-    // Cambia el color de un botón de filtro según si es el juego seleccionado o no.
+    // Cambia el color de fondo y de letra de un botón de filtro según si es el juego seleccionado o no.
     private void pintarBotonFiltro(Button boton, String juego) {
-        int color;
+        int colorFondo;
+        int colorTexto;
         if (juego.equals(juegoSeleccionado)) {
-            color = ContextCompat.getColor(this, R.color.color_primario_oscuro);
+            colorFondo = ContextCompat.getColor(this, R.color.color_primario_oscuro);
+            colorTexto = ContextCompat.getColor(this, R.color.color_texto_blanco);
         } else {
-            color = ContextCompat.getColor(this, R.color.color_secundario);
+            colorFondo = ContextCompat.getColor(this, R.color.color_fondo_tarjeta);
+            colorTexto = ContextCompat.getColor(this, R.color.color_primario);
         }
-        boton.setBackgroundTintList(ColorStateList.valueOf(color));
+        boton.setBackgroundTintList(ColorStateList.valueOf(colorFondo));
+        boton.setTextColor(colorTexto);
     }
 
     // Configura el botón inferior para abrir la pantalla de creación de aviso 'Falta 1'.
