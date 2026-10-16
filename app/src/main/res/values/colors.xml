@@ -16,9 +16,7 @@
 
     <!-- Estados de acción para personas mayores -->
     <color name="color_verde_apunto">#2E7D32</color>
-    <color name="color_verde_apunto_pulsado">#1B5E20</color>
     <color name="color_gris_lleno">#757575</color>
-    <color name="color_gris_fondo_deshabilitado">#E0E0E0</color>
     <color name="color_naranja_falta_uno">#E65100</color>
     <color name="color_azul_altavoz">#0277BD</color>
     <color name="color_borde">#BDBDBD</color>

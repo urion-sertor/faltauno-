@@ -1,5 +1,6 @@
 package com.faltauno.app.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
@@ -39,7 +40,9 @@ public class PartidasAdapter extends RecyclerView.Adapter<PartidasAdapter.Partid
         this.listener = listener;
     }
 
-    // Para recargar la lista cuando haya cambios o filtros
+    // Para recargar la lista cuando haya cambios o filtros.
+    // Cada filtro cambia la lista entera, así que avisar de todo el cambio es lo más sencillo.
+    @SuppressLint("NotifyDataSetChanged")
     public void actualizarPartidas(List<Partida> nuevasPartidas) {
         this.listaPartidas = (nuevasPartidas != null) ? nuevasPartidas : new ArrayList<>();
         notifyDataSetChanged();

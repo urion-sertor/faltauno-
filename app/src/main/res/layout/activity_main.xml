@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_fondo"
     android:orientation="vertical"
     tools:context=".ui.MainActivity">
 
@@ -46,10 +45,12 @@
         android:paddingBottom="@dimen/padding_pequeno"
         android:scrollbars="none">
 
+        <!-- Botones rellenos y grandes a propósito para personas mayores (no "sin borde" como sugiere lint) -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:ignore="ButtonStyle">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFiltroTodos"

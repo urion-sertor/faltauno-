@@ -78,12 +78,14 @@
             android:textSize="@dimen/texto_base" />
 
         <!-- Botonera accesible inferior: altavoz TTS y boton de apuntarse -->
+        <!-- Botones rellenos y grandes a propósito para personas mayores (no "sin borde" como sugiere lint) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_general"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:ignore="ButtonStyle">
 
             <!-- Boton de lectura por voz con icono de altavoz y texto "Oír" (minimo 60dp para mayores) -->
             <com.google.android.material.button.MaterialButton

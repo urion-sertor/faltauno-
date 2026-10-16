@@ -8,7 +8,6 @@
 
     <!-- Dimensiones adicionales para márgenes, tarjetas y textos destacados -->
     <dimen name="texto_subtitulo">20sp</dimen>
-    <dimen name="texto_gigante">26sp</dimen>
     <dimen name="padding_pequeno">8dp</dimen>
     <dimen name="padding_grande">24dp</dimen>
     <dimen name="margen_tarjeta">12dp</dimen>
