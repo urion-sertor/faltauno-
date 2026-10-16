@@ -1,5 +1,6 @@
 package com.faltauno.app.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
@@ -17,6 +18,9 @@ import com.faltauno.app.model.Partida;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Adaptador de RecyclerView que muestra cada partida en una tarjeta accesible.
+ */
 public class PartidasAdapter extends RecyclerView.Adapter<PartidasAdapter.PartidaViewHolder> {
 
     // Listener para avisar a la Activity de los clicks
@@ -29,18 +33,22 @@ public class PartidasAdapter extends RecyclerView.Adapter<PartidasAdapter.Partid
     private List<Partida> listaPartidas;
     private OnPartidaClickListener listener;
 
+    // Constructor que recibe el contexto, la lista de partidas y quién escucha los clics.
     public PartidasAdapter(Context context, List<Partida> listaPartidas, OnPartidaClickListener listener) {
         this.context = context;
         this.listaPartidas = (listaPartidas != null) ? listaPartidas : new ArrayList<>();
         this.listener = listener;
     }
 
-    // Para recargar la lista cuando haya cambios o filtros
+    // Para recargar la lista cuando haya cambios o filtros.
+    // Cada filtro cambia la lista entera, así que avisar de todo el cambio es lo más sencillo.
+    @SuppressLint("NotifyDataSetChanged")
     public void actualizarPartidas(List<Partida> nuevasPartidas) {
         this.listaPartidas = (nuevasPartidas != null) ? nuevasPartidas : new ArrayList<>();
         notifyDataSetChanged();
     }
 
+    // Crea la vista de una tarjeta a partir del diseño item_partida.xml.
     @NonNull
     @Override
     public PartidaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -48,6 +56,7 @@ public class PartidasAdapter extends RecyclerView.Adapter<PartidasAdapter.Partid
         return new PartidaViewHolder(v);
     }
 
+    // Rellena la tarjeta con los datos de la partida y prepara sus botones.
     @Override
     public void onBindViewHolder(@NonNull PartidaViewHolder holder, int position) {
         Partida p = listaPartidas.get(position);
@@ -65,6 +74,8 @@ public class PartidasAdapter extends RecyclerView.Adapter<PartidasAdapter.Partid
             holder.btnMeApunto.setEnabled(false);
             holder.btnMeApunto.setBackgroundTintList(ColorStateList.valueOf(
                     ContextCompat.getColor(context, R.color.color_gris_lleno)));
+            // Texto blanco también desactivado: si no, Android lo pone gris claro y no se lee
+            holder.btnMeApunto.setTextColor(ContextCompat.getColor(context, R.color.color_texto_blanco));
         } else {
             holder.btnMeApunto.setText(context.getString(R.string.accion_me_apunto));
             holder.btnMeApunto.setEnabled(true);
@@ -87,6 +98,7 @@ public class PartidasAdapter extends RecyclerView.Adapter<PartidasAdapter.Partid
         });
     }
 
+    // Devuelve cuántas partidas hay en la lista.
     @Override
     public int getItemCount() {
         return listaPartidas.size();
@@ -97,6 +109,7 @@ public class PartidasAdapter extends RecyclerView.Adapter<PartidasAdapter.Partid
         TextView tvNombreJuego, tvHoraPartida, tvLugarPartida, tvPlazasLibres, tvCreadorPartida;
         Button btnAltavoz, btnMeApunto;
 
+        // Busca en la tarjeta cada texto y botón por su id.
         public PartidaViewHolder(@NonNull View itemView) {
             super(itemView);
             tvNombreJuego = itemView.findViewById(R.id.tvNombreJuego);

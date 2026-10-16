@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Tema accesible de alto contraste para personas mayores -->
     <style name="Theme.FaltaUno" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Colores primarios de la aplicación -->
@@ -17,6 +17,6 @@
 
         <!-- Barra de estado del sistema Android -->
         <item name="android:statusBarColor">@color/color_primario_oscuro</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 </resources>

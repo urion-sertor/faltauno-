@@ -5,7 +5,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -78,19 +77,19 @@ public class NuevaPartidaActivity extends AppCompatActivity {
             String creador = etCreadorPartida.getText().toString().trim();
 
             if (hora.isEmpty() || lugar.isEmpty()) {
-                Toast.makeText(this, R.string.toast_faltan_campos, Toast.LENGTH_SHORT).show();
+                Avisos.mostrarError(v, getString(R.string.aviso_faltan_campos), null);
                 return;
             }
 
             // La hora tiene que entenderse (por ejemplo "17:00") para poder mostrarla en el tablón
             if (Partida.convertirHoraAMinutos(hora) < 0) {
-                Toast.makeText(this, R.string.toast_hora_no_valida, Toast.LENGTH_LONG).show();
+                Avisos.mostrarError(v, getString(R.string.aviso_hora_no_valida), null);
                 return;
             }
 
             // Si la hora ya ha pasado, la partida no se vería en el tablón: avisamos y no publicamos
             if (gestorPartidas.esHoraPasada(hora)) {
-                Toast.makeText(this, R.string.toast_hora_pasada, Toast.LENGTH_LONG).show();
+                Avisos.mostrarError(v, getString(R.string.aviso_hora_pasada), null);
                 return;
             }
 
@@ -102,7 +101,8 @@ public class NuevaPartidaActivity extends AppCompatActivity {
             Partida nuevaPartida = new Partida(0, juego, lugar, hora, 1, creador);
             gestorPartidas.guardarPartida(nuevaPartida);
 
-            Toast.makeText(this, R.string.toast_partida_publicada, Toast.LENGTH_SHORT).show();
+            // La pantalla principal muestra el aviso verde de "publicada" al volver
+            setResult(RESULT_OK);
             finish();
         });
     }

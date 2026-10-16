@@ -3,8 +3,12 @@ package com.faltauno.app.ui;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.TextView;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -24,6 +28,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements PartidasAdapter.OnPartidaClickListener {
 
     private RecyclerView rvPartidas;
+    private TextView tvSinPartidas;
     private PartidasAdapter adaptador;
     private GestorPartidas gestorPartidas;
     private GestorVoz gestorVoz;
@@ -35,7 +40,17 @@ public class MainActivity extends AppCompatActivity implements PartidasAdapter.O
     private Button btnFiltroParchis;
     private Button btnFaltaUno;
 
-    private String juegoSeleccionado = "Todos";
+    // Abre la pantalla "Falta 1" y, si se publica una partida, muestra el aviso verde al volver
+    private final ActivityResultLauncher<Intent> abrirNuevaPartida = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            resultado -> {
+                if (resultado.getResultCode() == RESULT_OK) {
+                    Avisos.mostrarExito(rvPartidas, getString(R.string.aviso_partida_publicada), btnFaltaUno);
+                }
+            });
+
+    // Juego elegido en los filtros; empieza en "Todos" (se lee de strings.xml en onCreate)
+    private String juegoSeleccionado;
 
     // Método inicial del ciclo de vida donde se configuran las vistas y gestores.
     @Override
@@ -43,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements PartidasAdapter.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        juegoSeleccionado = getString(R.string.juego_todos);
         inicializarGestores();
         vincularVistas();
         configurarListaPartidas();
@@ -60,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements PartidasAdapter.O
     // Obtiene las referencias de todos los elementos visuales definidos en el XML.
     private void vincularVistas() {
         rvPartidas = findViewById(R.id.rvPartidas);
+        tvSinPartidas = findViewById(R.id.tvSinPartidas);
         btnFiltroTodos = findViewById(R.id.btnFiltroTodos);
         btnFiltroDomino = findViewById(R.id.btnFiltroDomino);
         btnFiltroCartas = findViewById(R.id.btnFiltroCartas);
@@ -77,46 +94,57 @@ public class MainActivity extends AppCompatActivity implements PartidasAdapter.O
 
     // Asigna las acciones a los botones gigantes de filtro de juegos.
     private void configurarFiltros() {
-        btnFiltroTodos.setOnClickListener(v -> filtrarPorJuego("Todos"));
-        btnFiltroDomino.setOnClickListener(v -> filtrarPorJuego("Dominó"));
-        btnFiltroCartas.setOnClickListener(v -> filtrarPorJuego("Cartas"));
-        btnFiltroPetanca.setOnClickListener(v -> filtrarPorJuego("Petanca"));
-        btnFiltroParchis.setOnClickListener(v -> filtrarPorJuego("Parchís"));
+        btnFiltroTodos.setOnClickListener(v -> filtrarPorJuego(getString(R.string.juego_todos)));
+        btnFiltroDomino.setOnClickListener(v -> filtrarPorJuego(getString(R.string.juego_domino)));
+        btnFiltroCartas.setOnClickListener(v -> filtrarPorJuego(getString(R.string.juego_cartas)));
+        btnFiltroPetanca.setOnClickListener(v -> filtrarPorJuego(getString(R.string.juego_petanca)));
+        btnFiltroParchis.setOnClickListener(v -> filtrarPorJuego(getString(R.string.juego_parchis)));
     }
 
-    // Filtra la lista de partidas en pantalla según el juego que el usuario haya seleccionado.
+    // Filtra la lista de partidas en pantalla y muestra un aviso si no hay ninguna de ese juego.
     private void filtrarPorJuego(String juego) {
-        this.juegoSeleccionado = juego;
-        List<Partida> filtradas = gestorPartidas.obtenerPartidasPorJuego(juego);
-        adaptador.actualizarPartidas(filtradas);
-        marcarFiltroSeleccionado();
-    }
-
-    // Pinta el botón del juego elegido con un azul más oscuro y los demás con el azul normal.
-    private void marcarFiltroSeleccionado() {
-        pintarBotonFiltro(btnFiltroTodos, "Todos");
-        pintarBotonFiltro(btnFiltroDomino, "Dominó");
-        pintarBotonFiltro(btnFiltroCartas, "Cartas");
-        pintarBotonFiltro(btnFiltroPetanca, "Petanca");
-        pintarBotonFiltro(btnFiltroParchis, "Parchís");
-    }
-
-    // Cambia el color de un botón de filtro según si es el juego seleccionado o no.
-    private void pintarBotonFiltro(Button boton, String juego) {
-        int color;
-        if (juego.equals(juegoSeleccionado)) {
-            color = ContextCompat.getColor(this, R.color.color_primario_oscuro);
-        } else {
-            color = ContextCompat.getColor(this, R.color.color_secundario);
+        this.juegoSeleccionado = (juego != null) ? juego : getString(R.string.juego_todos);
+        List<Partida> filtradas = gestorPartidas.obtenerPartidasPorJuego(this.juegoSeleccionado);
+        if (adaptador != null) {
+            adaptador.actualizarPartidas(filtradas);
         }
-        boton.setBackgroundTintList(ColorStateList.valueOf(color));
+        marcarFiltroSeleccionado();
+
+        // Alternar entre la lista o el mensaje de que no hay partidas
+        boolean sinPartidas = (filtradas == null || filtradas.isEmpty());
+        rvPartidas.setVisibility(sinPartidas ? View.GONE : View.VISIBLE);
+        tvSinPartidas.setVisibility(sinPartidas ? View.VISIBLE : View.GONE);
+    }
+
+    // Resalta el botón del juego elegido (azul oscuro y letra blanca) frente a los demás (blancos con letra azul).
+    private void marcarFiltroSeleccionado() {
+        pintarBotonFiltro(btnFiltroTodos, getString(R.string.juego_todos));
+        pintarBotonFiltro(btnFiltroDomino, getString(R.string.juego_domino));
+        pintarBotonFiltro(btnFiltroCartas, getString(R.string.juego_cartas));
+        pintarBotonFiltro(btnFiltroPetanca, getString(R.string.juego_petanca));
+        pintarBotonFiltro(btnFiltroParchis, getString(R.string.juego_parchis));
+    }
+
+    // Cambia el color de fondo y de letra de un botón de filtro según si es el juego seleccionado o no.
+    private void pintarBotonFiltro(Button boton, String juego) {
+        int colorFondo;
+        int colorTexto;
+        if (juego.equals(juegoSeleccionado)) {
+            colorFondo = ContextCompat.getColor(this, R.color.color_primario_oscuro);
+            colorTexto = ContextCompat.getColor(this, R.color.color_texto_blanco);
+        } else {
+            colorFondo = ContextCompat.getColor(this, R.color.color_fondo_tarjeta);
+            colorTexto = ContextCompat.getColor(this, R.color.color_primario);
+        }
+        boton.setBackgroundTintList(ColorStateList.valueOf(colorFondo));
+        boton.setTextColor(colorTexto);
     }
 
     // Configura el botón inferior para abrir la pantalla de creación de aviso 'Falta 1'.
     private void configurarBotonFaltaUno() {
         btnFaltaUno.setOnClickListener(v -> {
             Intent intencion = new Intent(MainActivity.this, NuevaPartidaActivity.class);
-            startActivity(intencion);
+            abrirNuevaPartida.launch(intencion);
         });
     }
 
@@ -125,23 +153,32 @@ public class MainActivity extends AppCompatActivity implements PartidasAdapter.O
     public void onMeApuntoClick(Partida partida, int posicion) {
         boolean exito = gestorPartidas.apuntarseAPartida(partida.getId());
         if (exito) {
-            String mensaje = getString(R.string.toast_apuntado_exito, partida.getHora(), partida.getLugar());
-            Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+            Avisos.mostrarExito(rvPartidas, getString(R.string.aviso_apuntado, partida.getHora()), btnFaltaUno);
             filtrarPorJuego(juegoSeleccionado);
         } else {
-            Toast.makeText(this, R.string.toast_partida_llena, Toast.LENGTH_SHORT).show();
+            Avisos.mostrarError(rvPartidas, getString(R.string.aviso_partida_llena), btnFaltaUno);
         }
     }
 
     // Lee en voz alta la información de la partida usando el motor TextToSpeech nativo.
     @Override
     public void onAltavozClick(Partida partida) {
+        if (gestorVoz == null) {
+            return;
+        }
+        // "Queda 1 plaza libre" / "Quedan 2 plazas libres", o "Partida llena" si no queda ninguna
+        String plazas = partida.estaLlena()
+                ? getString(R.string.estado_partida_llena)
+                : getResources().getQuantityString(R.plurals.locucion_plazas_libres,
+                        partida.getPlazasLibres(), partida.getPlazasLibres());
         String texto = getString(R.string.formato_locucion_voz,
                 partida.getJuego(),
                 partida.getHora(),
                 partida.getLugar(),
-                partida.getPlazasLibres());
-        gestorVoz.hablar(texto);
+                plazas);
+        if (!gestorVoz.hablar(texto)) {
+            Avisos.mostrarError(rvPartidas, getString(R.string.aviso_error_voz), btnFaltaUno);
+        }
     }
 
     // Refresca la lista de partidas cada vez que el usuario regresa a la pantalla principal.

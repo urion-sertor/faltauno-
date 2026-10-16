@@ -1,6 +1,7 @@
 # 🌿 Guía de Coordinación y Reparto de Ramas (Falta Uno!)
 
 * **Equipo de 2.º DAM (Monlau):** Adrián Iturbe, Pol Cañizares, Enrique Flores y Oriol Torres.
+* **Estado:** actualizado tras la integración del MVP. Refleja las ramas y el flujo que hemos usado de verdad (una rama por persona y Pull Requests a `main`).
 * **Objetivo de este documento:** Ser la guía definitiva para que cada integrante sepa **con total exactitud qué archivos debe programar**, qué carpetas pertenecen a su tarea y qué archivos tiene **estrictamente prohibido tocar** para evitar conflictos de fusión (*merge conflicts*) en Git.
 
 ---
@@ -50,6 +51,7 @@ faltauno-/
             │   └── GestorVoz.java             [👤 ADRIÁN ITURBE]
             │
             └── ui/
+                ├── Avisos.java                [🔒 COMÚN - Avisos grandes (Snackbar), añadido en la revisión final]
                 ├── MainActivity.java          [👤 POL CAÑIZARES]
                 ├── PartidasAdapter.java       [👤 ADRIÁN ITURBE]
                 └── NuevaPartidaActivity.java  [👤 ORIOL TORRES]
@@ -70,6 +72,8 @@ faltauno-/
 > * `build.gradle`, `app/build.gradle` y `settings.gradle`.
 >
 > *Si necesitas un nuevo texto o color, coméntalo primero con el equipo en clase para añadirlo de común acuerdo.*
+>
+> *En la integración final el equipo acordó añadir textos a `strings.xml` (validación de hora, aviso "No hay partidas" y avisos `aviso_*`) y quitar recursos que no se usaban.*
 
 ---
 
@@ -79,8 +83,8 @@ faltauno-/
 
 ### 👤 1. Enrique Flores (Core Lógica / Backend con Claude Code)
 * **Herramienta de apoyo:** Claude Code.
-* **Rama de Git:** `feature/motor-persistencia`
-* **Comando para crearla:** `git checkout -b feature/motor-persistencia`
+* **Rama de Git:** `EnriqueFlores`
+* **Comando para trabajar en ella:** `git checkout EnriqueFlores` (ya existe en GitHub)
 * **Tareas asociadas (`tasks.md`):** **T-1** (Persistencia local real, lógica del motor de partidas y casos límite de `spec.md`).
 * **Archivos asignados:**
   1. `app/src/main/java/com/faltauno/app/model/Partida.java`
@@ -105,8 +109,8 @@ Es el **corazón y la columna vertebral de la aplicación**. Si el gestor de dat
 ---
 
 ### 👤 2. Adrián Iturbe (Tarjeta Interactiva y Accesibilidad por Voz)
-* **Rama de Git:** `feature/tarjeta-y-voz`
-* **Comando para crearla:** `git checkout -b feature/tarjeta-y-voz`
+* **Rama de Git:** `AdrianIturbe`
+* **Comando para trabajar en ella:** `git checkout AdrianIturbe` (ya existe en GitHub)
 * **Tareas asociadas (`tasks.md`):** **T-4 y T-5** (Tarjeta accesible, botón "Me apunto" con control de plazas y lectura TextToSpeech).
 * **Archivos asignados:**
   1. `app/src/main/res/layout/item_partida.xml`
@@ -132,8 +136,8 @@ Es el **corazón y la columna vertebral de la aplicación**. Si el gestor de dat
 ---
 
 ### 👤 3. Pol Cañizares (Pantalla Principal y Filtros)
-* **Rama de Git:** `feature/pantalla-principal`
-* **Comando para crearla:** `git checkout -b feature/pantalla-principal`
+* **Rama de Git:** `PolCanizares`
+* **Comando para trabajar en ella:** `git checkout PolCanizares` (ya existe en GitHub)
 * **Tareas asociadas (`tasks.md`):** **T-2 y T-3** (Diseño de pantalla principal y filtros de juegos).
 * **Archivos asignados:**
   1. `app/src/main/res/layout/activity_main.xml`
@@ -155,8 +159,8 @@ Es el **corazón y la columna vertebral de la aplicación**. Si el gestor de dat
 ---
 
 ### 👤 4. Oriol Torres (Pantalla "Falta 1" y Validación)
-* **Rama de Git:** `feature/nueva-partida`
-* **Comando para crearla:** `git checkout -b feature/nueva-partida`
+* **Rama de Git:** `OriolTorres`
+* **Comando para trabajar en ella:** `git checkout OriolTorres` (ya existe en GitHub)
 * **Tareas asociadas (`tasks.md`):** **T-6 y T-7** (Formulario "Falta 1", validación con Toast y publicación).
 * **Archivos asignados:**
   1. `app/src/main/res/layout/activity_nueva_partida.xml`
@@ -177,56 +181,55 @@ Es el **corazón y la columna vertebral de la aplicación**. Si el gestor de dat
 
 ## 🛠️ Flujo de Trabajo con Git Paso a Paso
 
-### Paso 1: Partir siempre de `main` actualizado
-Antes de crear tu rama o ponerte a programar, asegúrate de estar al día:
+Cada persona trabaja en **su propia rama con su nombre** y lo integra en `main` con una **Pull Request**. Nunca se hace `push` directo a `main` ni `push --force`.
 
+| Persona | Rama |
+|---|---|
+| Enrique Flores | `EnriqueFlores` |
+| Adrián Iturbe | `AdrianIturbe` |
+| Pol Cañizares | `PolCanizares` |
+| Oriol Torres | `OriolTorres` |
+
+Para arreglos que tocan varias partes a la vez (revisión final) se usa una rama aparte, por ejemplo `fix/integracion`.
+
+### Paso 1: Descargar las novedades de GitHub
 ```bash
-git checkout main
-git pull origin main
+git fetch origin
 ```
 
-### Paso 2: Crear tu rama personal de trabajo
-Ejecuta únicamente el comando que te corresponde:
-
+### Paso 2: Ir a tu rama y traer lo último de `main`
 ```bash
-# Enrique (Core Backend):
-git checkout -b feature/motor-persistencia
-
-# Adrián (Tarjeta y Voz):
-git checkout -b feature/tarjeta-y-voz
-
-# Pol (Pantalla Principal):
-git checkout -b feature/pantalla-principal
-
-# Oriol (Nueva Partida):
-git checkout -b feature/nueva-partida
+git checkout <tu-rama>        # por ejemplo: git checkout EnriqueFlores
+git merge origin/main
 ```
+Si sale un conflicto, **para** y avisa al grupo antes de seguir.
 
 ### Paso 3: Programar y hacer commits regulares
-Haz commits explicando lo que vas avanzando en tus archivos asignados:
+Haz commits pequeños explicando lo que vas avanzando en tus archivos asignados:
 
 ```bash
 git status
-git add .
-git commit -m "feat: implementada la logica asignada"
+git add <archivos que has cambiado>
+git commit -m "feat: explicación corta del cambio"
 ```
 
 ### Paso 4: Subir tu rama a GitHub
-La primera vez que subas tu rama ejecuta:
-
 ```bash
-git push -u origin <nombre-de-tu-rama>
+git push origin <tu-rama>
 ```
 
-### Paso 5: Integración final (*Pull Request* y *Merge*)
-1. Entra en GitHub y abre un **Pull Request (PR)** desde tu rama hacia `main`.
-2. Avisa al grupo para que otro compañero revise que tu código compila y cumple las normas de accesibilidad.
-3. Haz el **Merge** en GitHub.
-4. Los demás compañeros se descargan la novedad en su ordenador:
-   ```bash
-   git checkout main
-   git pull origin main
-   git checkout <tu-rama>
-   git merge main
-   ```
-   *¡Como cada uno ha tocado archivos completamente diferentes, la fusión se hará en 1 segundo y con 0 conflictos!*
+### Paso 5: Pull Request hacia `main`
+1. En GitHub abre una **Pull Request** desde tu rama hacia `main`.
+2. Explica qué hace, qué archivos toca y cómo lo has probado (`assembleDebug` o el botón Play de Android Studio).
+3. Otro compañero la revisa: que compile y cumpla las normas de accesibilidad.
+4. Se fusiona con **merge normal** (sin squash ni rebase).
+5. Los demás vuelven al Paso 1 y al Paso 2 para tener la novedad en su rama.
+
+### Historial de integración del MVP
+| PR | Rama | Contenido |
+|---|---|---|
+| #2 | `PolCanizares` | Pantalla principal con filtros y refresco de la lista |
+| #3 | `EnriqueFlores` | Motor de datos: guardado en el móvil, plazas y partidas de hoy |
+| #1 | `AdrianIturbe` | Tarjeta accesible, adapter y voz (TextToSpeech) |
+| #4 | `OriolTorres` | Pantalla "Falta 1" con validación de la hora |
+| — | `fix/integracion` | Revisión final: aviso "No hay partidas", Snackbar, contraste y limpieza de recursos |

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_fondo"
     android:orientation="vertical"
     tools:context=".ui.MainActivity">
 
@@ -45,67 +45,98 @@
         android:paddingBottom="@dimen/padding_pequeno"
         android:scrollbars="none">
 
+        <!-- Botones rellenos y grandes a propósito para personas mayores (no "sin borde" como sugiere lint) -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:ignore="ButtonStyle">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFiltroTodos"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/btn_min_tamano"
                 android:layout_marginEnd="@dimen/padding_pequeno"
                 android:minWidth="@dimen/btn_min_tamano"
                 android:text="@string/juego_todos"
-                android:textSize="@dimen/texto_base" />
+                android:textSize="@dimen/texto_base"
+                app:strokeColor="@color/color_borde"
+                app:strokeWidth="2dp" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFiltroDomino"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/btn_min_tamano"
                 android:layout_marginEnd="@dimen/padding_pequeno"
                 android:minWidth="@dimen/btn_min_tamano"
                 android:text="@string/juego_domino"
-                android:textSize="@dimen/texto_base" />
+                android:textSize="@dimen/texto_base"
+                app:strokeColor="@color/color_borde"
+                app:strokeWidth="2dp" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFiltroCartas"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/btn_min_tamano"
                 android:layout_marginEnd="@dimen/padding_pequeno"
                 android:minWidth="@dimen/btn_min_tamano"
                 android:text="@string/juego_cartas"
-                android:textSize="@dimen/texto_base" />
+                android:textSize="@dimen/texto_base"
+                app:strokeColor="@color/color_borde"
+                app:strokeWidth="2dp" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFiltroPetanca"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/btn_min_tamano"
                 android:layout_marginEnd="@dimen/padding_pequeno"
                 android:minWidth="@dimen/btn_min_tamano"
                 android:text="@string/juego_petanca"
-                android:textSize="@dimen/texto_base" />
+                android:textSize="@dimen/texto_base"
+                app:strokeColor="@color/color_borde"
+                app:strokeWidth="2dp" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFiltroParchis"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/btn_min_tamano"
                 android:minWidth="@dimen/btn_min_tamano"
                 android:text="@string/juego_parchis"
-                android:textSize="@dimen/texto_base" />
+                android:textSize="@dimen/texto_base"
+                app:strokeColor="@color/color_borde"
+                app:strokeWidth="2dp" />
 
         </LinearLayout>
     </HorizontalScrollView>
 
-    <!-- Lista de partidas del barrio -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPartidas"
+    <!-- Contenedor central con la lista de partidas o aviso cuando no hay resultados -->
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:clipToPadding="false"
-        android:paddingTop="@dimen/padding_pequeno"
-        android:paddingBottom="@dimen/padding_pequeno" />
+        android:layout_weight="1">
+
+        <!-- Lista de partidas del barrio -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPartidas"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="@dimen/padding_pequeno"
+            android:paddingBottom="@dimen/padding_pequeno" />
+
+        <!-- Mensaje accesible cuando no hay partidas para el juego seleccionado -->
+        <TextView
+            android:id="@+id/tvSinPartidas"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="@dimen/padding_grande"
+            android:text="@string/mensaje_sin_partidas"
+            android:textColor="@color/color_texto_secundario"
+            android:textSize="@dimen/texto_subtitulo"
+            android:visibility="gone" />
+
+    </FrameLayout>
 
     <!-- Botón gigante y llamativo 'Falta 1' fijado en la parte inferior -->
     <LinearLayout
