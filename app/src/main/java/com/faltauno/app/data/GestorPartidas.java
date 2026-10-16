@@ -189,6 +189,14 @@ public class GestorPartidas {
         guardarEnMovil();
     }
 
+    // Indica si una hora escrita ya ha pasado hoy, para que el formulario "Falta 1" (NuevaPartidaActivity)
+    // lo compruebe antes de publicar: una partida con la hora pasada se guardaría pero no se vería en el tablón.
+    // Si la hora no se entiende (por ejemplo "tarde") devuelve false, igual que el tablón, que no la oculta.
+    public boolean esHoraPasada(String hora) {
+        int minutosPartida = Partida.convertirHoraAMinutos(hora);
+        return minutosPartida >= 0 && minutosPartida < obtenerMinutosAhora();
+    }
+
     // Resta una plaza a la partida indicada y devuelve verdadero si la operación tuvo éxito.
     // Es synchronized: si dos personas pulsan a la vez, entra la primera y la segunda recibe false.
     public synchronized boolean apuntarseAPartida(int idPartida) {

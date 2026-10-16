@@ -108,8 +108,13 @@ public class Partida {
         return this.plazasLibres <= 0;
     }
 
-    // Pasa la hora escrita ("17:00", "17.30", "17h" o "17") a minutos desde las 00:00, o -1 si no se entiende.
+    // Devuelve la hora de esta partida en minutos desde las 00:00, o -1 si no se entiende.
     public int calcularMinutosDelDia() {
+        return convertirHoraAMinutos(hora);
+    }
+
+    // Pasa una hora escrita ("17:00", "17.30", "17h" o "17") a minutos desde las 00:00, o -1 si no se entiende.
+    public static int convertirHoraAMinutos(String hora) {
         if (hora == null) {
             return -1;
         }
