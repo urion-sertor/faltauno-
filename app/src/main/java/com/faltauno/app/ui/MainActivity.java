@@ -1,11 +1,13 @@
 package com.faltauno.app.ui;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -87,6 +89,27 @@ public class MainActivity extends AppCompatActivity implements PartidasAdapter.O
         this.juegoSeleccionado = juego;
         List<Partida> filtradas = gestorPartidas.obtenerPartidasPorJuego(juego);
         adaptador.actualizarPartidas(filtradas);
+        marcarFiltroSeleccionado();
+    }
+
+    // Pinta el botón del juego elegido con un azul más oscuro y los demás con el azul normal.
+    private void marcarFiltroSeleccionado() {
+        pintarBotonFiltro(btnFiltroTodos, "Todos");
+        pintarBotonFiltro(btnFiltroDomino, "Dominó");
+        pintarBotonFiltro(btnFiltroCartas, "Cartas");
+        pintarBotonFiltro(btnFiltroPetanca, "Petanca");
+        pintarBotonFiltro(btnFiltroParchis, "Parchís");
+    }
+
+    // Cambia el color de un botón de filtro según si es el juego seleccionado o no.
+    private void pintarBotonFiltro(Button boton, String juego) {
+        int color;
+        if (juego.equals(juegoSeleccionado)) {
+            color = ContextCompat.getColor(this, R.color.color_primario_oscuro);
+        } else {
+            color = ContextCompat.getColor(this, R.color.color_secundario);
+        }
+        boton.setBackgroundTintList(ColorStateList.valueOf(color));
     }
 
     // Configura el botón inferior para abrir la pantalla de creación de aviso 'Falta 1'.
