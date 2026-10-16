@@ -100,41 +100,46 @@ public class GestorPartidas {
         }
     }
 
-    // Devuelve la lista completa de todas las partidas registradas.
-    public List<Partida> obtenerPartidas() {
+    // Devuelve una copia de la lista completa de partidas registradas.
+    public synchronized List<Partida> obtenerPartidas() {
         return new ArrayList<>(listaPartidas);
     }
 
     // Devuelve la lista de partidas filtradas según el nombre del juego seleccionado.
-    public List<Partida> obtenerPartidasPorJuego(String juego) {
-        if (juego == null || juego.equalsIgnoreCase("Todos")) {
+    public synchronized List<Partida> obtenerPartidasPorJuego(String juego) {
+        if (juego == null || juego.trim().isEmpty() || juego.trim().equalsIgnoreCase("Todos")) {
             return obtenerPartidas();
         }
         List<Partida> filtradas = new ArrayList<>();
         for (Partida p : listaPartidas) {
-            if (p.getJuego().equalsIgnoreCase(juego)) {
+            if (juego.trim().equalsIgnoreCase(p.getJuego())) {
                 filtradas.add(p);
             }
         }
         return filtradas;
     }
 
-    // Guarda una nueva partida en la lista asignándole un identificador incremental.
-    public void guardarPartida(Partida p) {
+    // Guarda una nueva partida al principio de la lista con un identificador nuevo y la deja en el móvil.
+    public synchronized void guardarPartida(Partida p) {
+        if (p == null) {
+            return;
+        }
         p.setId(contadorId++);
         listaPartidas.add(0, p);
+        guardarEnMovil();
     }
 
     // Resta una plaza a la partida indicada y devuelve verdadero si la operación tuvo éxito.
-    public boolean apuntarseAPartida(int idPartida) {
+    // Es synchronized: si dos personas pulsan a la vez, entra la primera y la segunda recibe false.
+    public synchronized boolean apuntarseAPartida(int idPartida) {
         for (Partida p : listaPartidas) {
             if (p.getId() == idPartida) {
-                if (p.getPlazasLibres() > 0) {
-                    p.setPlazasLibres(p.getPlazasLibres() - 1);
-                    return true;
-                } else {
+                if (p.estaLlena()) {
                     return false;
                 }
+                p.setPlazasLibres(p.getPlazasLibres() - 1);
+                guardarEnMovil();
+                return true;
             }
         }
         return false;
