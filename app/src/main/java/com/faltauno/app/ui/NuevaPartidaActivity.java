@@ -60,22 +60,37 @@ public class NuevaPartidaActivity extends AppCompatActivity {
         };
         ArrayAdapter<String> adaptadorJuegos = new ArrayAdapter<>(
                 this,
-                android.R.layout.simple_spinner_dropdown_item,
+                android.R.layout.simple_spinner_item,
                 listaJuegos
         );
+        adaptadorJuegos.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spJuegos.setAdapter(adaptadorJuegos);
     }
 
     // Configura el botón de publicación con validación simple de campos obligatorios.
     private void configurarBotonPublicar() {
         btnPublicarPartida.setOnClickListener(v -> {
-            String juego = spJuegos.getSelectedItem().toString();
+            String juego = (spJuegos.getSelectedItem() != null)
+                    ? spJuegos.getSelectedItem().toString()
+                    : getString(R.string.juego_domino);
             String hora = etHoraPartida.getText().toString().trim();
             String lugar = etLugarPartida.getText().toString().trim();
             String creador = etCreadorPartida.getText().toString().trim();
 
             if (hora.isEmpty() || lugar.isEmpty()) {
                 Toast.makeText(this, R.string.toast_faltan_campos, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // La hora tiene que entenderse (por ejemplo "17:00") para poder mostrarla en el tablón
+            if (Partida.convertirHoraAMinutos(hora) < 0) {
+                Toast.makeText(this, R.string.toast_hora_no_valida, Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            // Si la hora ya ha pasado, la partida no se vería en el tablón: avisamos y no publicamos
+            if (gestorPartidas.esHoraPasada(hora)) {
+                Toast.makeText(this, R.string.toast_hora_pasada, Toast.LENGTH_LONG).show();
                 return;
             }
 

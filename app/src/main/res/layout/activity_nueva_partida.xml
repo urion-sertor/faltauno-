@@ -61,6 +61,7 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="@dimen/padding_general"
                 android:background="@android:drawable/btn_dropdown"
+                android:contentDescription="@string/etiqueta_elige_juego"
                 android:paddingStart="@dimen/padding_pequeno"
                 android:paddingEnd="@dimen/padding_pequeno" />
 
@@ -144,7 +145,7 @@
                 android:backgroundTint="@color/color_verde_apunto"
                 android:text="@string/accion_publicar"
                 android:textColor="@color/color_texto_blanco"
-                android:textSize="@dimen/texto_subtitulo"
+                android:textSize="@dimen/texto_titulo"
                 android:textStyle="bold" />
 
             <!-- Botón Volver -->
