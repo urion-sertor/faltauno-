@@ -23,7 +23,7 @@
     <string name="accion_falta_uno">¡Falta 1! (Crear aviso)</string>
     <string name="accion_publicar">Publicar</string>
     <string name="accion_volver">Volver atrás</string>
-    <string name="accion_oir">Oír 🔊</string>
+    <string name="accion_oir">Oír</string>
 
     <!-- Etiquetas del formulario y tarjetas -->
     <string name="etiqueta_elige_juego">Elige juego:</string>
