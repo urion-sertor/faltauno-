@@ -97,15 +97,34 @@
         </LinearLayout>
     </HorizontalScrollView>
 
-    <!-- Lista de partidas del barrio -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPartidas"
+    <!-- Contenedor central con la lista de partidas o aviso cuando no hay resultados -->
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:clipToPadding="false"
-        android:paddingTop="@dimen/padding_pequeno"
-        android:paddingBottom="@dimen/padding_pequeno" />
+        android:layout_weight="1">
+
+        <!-- Lista de partidas del barrio -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPartidas"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="@dimen/padding_pequeno"
+            android:paddingBottom="@dimen/padding_pequeno" />
+
+        <!-- Mensaje accesible cuando no hay partidas para el juego seleccionado -->
+        <TextView
+            android:id="@+id/tvSinPartidas"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="@dimen/padding_grande"
+            android:text="@string/mensaje_sin_partidas"
+            android:textColor="@color/color_texto_secundario"
+            android:textSize="@dimen/texto_subtitulo"
+            android:visibility="gone" />
+
+    </FrameLayout>
 
     <!-- Botón gigante y llamativo 'Falta 1' fijado en la parte inferior -->
     <LinearLayout

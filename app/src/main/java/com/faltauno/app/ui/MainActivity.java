@@ -3,7 +3,9 @@ package com.faltauno.app.ui;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +26,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements PartidasAdapter.OnPartidaClickListener {
 
     private RecyclerView rvPartidas;
+    private TextView tvSinPartidas;
     private PartidasAdapter adaptador;
     private GestorPartidas gestorPartidas;
     private GestorVoz gestorVoz;
@@ -35,7 +38,8 @@ public class MainActivity extends AppCompatActivity implements PartidasAdapter.O
     private Button btnFiltroParchis;
     private Button btnFaltaUno;
 
-    private String juegoSeleccionado = "Todos";
+    // Juego elegido en los filtros; empieza en "Todos" (se lee de strings.xml en onCreate)
+    private String juegoSeleccionado;
 
     // Método inicial del ciclo de vida donde se configuran las vistas y gestores.
     @Override
@@ -43,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements PartidasAdapter.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        juegoSeleccionado = getString(R.string.juego_todos);
         inicializarGestores();
         vincularVistas();
         configurarListaPartidas();
@@ -60,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements PartidasAdapter.O
     // Obtiene las referencias de todos los elementos visuales definidos en el XML.
     private void vincularVistas() {
         rvPartidas = findViewById(R.id.rvPartidas);
+        tvSinPartidas = findViewById(R.id.tvSinPartidas);
         btnFiltroTodos = findViewById(R.id.btnFiltroTodos);
         btnFiltroDomino = findViewById(R.id.btnFiltroDomino);
         btnFiltroCartas = findViewById(R.id.btnFiltroCartas);
@@ -77,28 +83,35 @@ public class MainActivity extends AppCompatActivity implements PartidasAdapter.O
 
     // Asigna las acciones a los botones gigantes de filtro de juegos.
     private void configurarFiltros() {
-        btnFiltroTodos.setOnClickListener(v -> filtrarPorJuego("Todos"));
-        btnFiltroDomino.setOnClickListener(v -> filtrarPorJuego("Dominó"));
-        btnFiltroCartas.setOnClickListener(v -> filtrarPorJuego("Cartas"));
-        btnFiltroPetanca.setOnClickListener(v -> filtrarPorJuego("Petanca"));
-        btnFiltroParchis.setOnClickListener(v -> filtrarPorJuego("Parchís"));
+        btnFiltroTodos.setOnClickListener(v -> filtrarPorJuego(getString(R.string.juego_todos)));
+        btnFiltroDomino.setOnClickListener(v -> filtrarPorJuego(getString(R.string.juego_domino)));
+        btnFiltroCartas.setOnClickListener(v -> filtrarPorJuego(getString(R.string.juego_cartas)));
+        btnFiltroPetanca.setOnClickListener(v -> filtrarPorJuego(getString(R.string.juego_petanca)));
+        btnFiltroParchis.setOnClickListener(v -> filtrarPorJuego(getString(R.string.juego_parchis)));
     }
 
-    // Filtra la lista de partidas en pantalla según el juego que el usuario haya seleccionado.
+    // Filtra la lista de partidas en pantalla y muestra un aviso si no hay ninguna de ese juego.
     private void filtrarPorJuego(String juego) {
-        this.juegoSeleccionado = juego;
-        List<Partida> filtradas = gestorPartidas.obtenerPartidasPorJuego(juego);
-        adaptador.actualizarPartidas(filtradas);
+        this.juegoSeleccionado = (juego != null) ? juego : getString(R.string.juego_todos);
+        List<Partida> filtradas = gestorPartidas.obtenerPartidasPorJuego(this.juegoSeleccionado);
+        if (adaptador != null) {
+            adaptador.actualizarPartidas(filtradas);
+        }
         marcarFiltroSeleccionado();
+
+        // Alternar entre la lista o el mensaje de que no hay partidas
+        boolean sinPartidas = (filtradas == null || filtradas.isEmpty());
+        rvPartidas.setVisibility(sinPartidas ? View.GONE : View.VISIBLE);
+        tvSinPartidas.setVisibility(sinPartidas ? View.VISIBLE : View.GONE);
     }
 
     // Pinta el botón del juego elegido con un azul más oscuro y los demás con el azul normal.
     private void marcarFiltroSeleccionado() {
-        pintarBotonFiltro(btnFiltroTodos, "Todos");
-        pintarBotonFiltro(btnFiltroDomino, "Dominó");
-        pintarBotonFiltro(btnFiltroCartas, "Cartas");
-        pintarBotonFiltro(btnFiltroPetanca, "Petanca");
-        pintarBotonFiltro(btnFiltroParchis, "Parchís");
+        pintarBotonFiltro(btnFiltroTodos, getString(R.string.juego_todos));
+        pintarBotonFiltro(btnFiltroDomino, getString(R.string.juego_domino));
+        pintarBotonFiltro(btnFiltroCartas, getString(R.string.juego_cartas));
+        pintarBotonFiltro(btnFiltroPetanca, getString(R.string.juego_petanca));
+        pintarBotonFiltro(btnFiltroParchis, getString(R.string.juego_parchis));
     }
 
     // Cambia el color de un botón de filtro según si es el juego seleccionado o no.
@@ -136,6 +149,9 @@ public class MainActivity extends AppCompatActivity implements PartidasAdapter.O
     // Lee en voz alta la información de la partida usando el motor TextToSpeech nativo.
     @Override
     public void onAltavozClick(Partida partida) {
+        if (gestorVoz == null) {
+            return;
+        }
         String texto = getString(R.string.formato_locucion_voz,
                 partida.getJuego(),
                 partida.getHora(),
