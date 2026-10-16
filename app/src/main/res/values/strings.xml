@@ -7,7 +7,7 @@
     <string name="titulo_pantalla_principal">Partidas de hoy en el barrio</string>
     <string name="subtitulo_pantalla_principal">Toca un juego para filtrar o publica un aviso</string>
     <string name="mensaje_sin_partidas">No hay partidas convocadas para este juego hoy.</string>
-    <string name="titulo_nueva_partida">Avisar que Falta 1</string>
+    <string name="titulo_nueva_partida">Crear aviso: ¡Falta 1!</string>
     <string name="subtitulo_nueva_partida">Rellena los datos para que otros vecinos se apunten</string>
 
     <!-- Nombres de los juegos populares -->
