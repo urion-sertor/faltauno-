@@ -9,11 +9,16 @@ import com.faltauno.app.model.Partida;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Gestor encargado de almacenar y recuperar las partidas en la memoria del dispositivo.
+ * Todas las partidas son "de hoy": al cambiar de día se borran y las que ya han pasado se ocultan.
  */
 public class GestorPartidas {
 
@@ -21,10 +26,12 @@ public class GestorPartidas {
     private static final String NOMBRE_PREFERENCIAS = "FaltaUnoPrefs";
     private static final String CLAVE_PARTIDAS = "partidas";
     private static final String CLAVE_CONTADOR_ID = "contador_id";
+    private static final String CLAVE_FECHA_TABLON = "fecha_tablon";
 
     private static GestorPartidas instancia;
     private final List<Partida> listaPartidas;
-    private int contadorId = 4;
+    private int contadorId = 1;
+    private String fechaTablon;
     private final SharedPreferences preferencias;
 
     // Constructor privado que abre el almacenamiento del móvil y carga las partidas guardadas.
@@ -36,6 +43,7 @@ public class GestorPartidas {
         this.preferencias = contextoAplicacion.getSharedPreferences(NOMBRE_PREFERENCIAS, Context.MODE_PRIVATE);
         this.listaPartidas = new ArrayList<>();
         cargarPartidas();
+        actualizarTablon();
     }
 
     // Obtiene la instancia única compartida del gestor de partidas en la app.
@@ -46,14 +54,12 @@ public class GestorPartidas {
         return instancia;
     }
 
-    // Lee las partidas guardadas en el móvil o crea las de ejemplo si no hay ninguna.
+    // Lee del móvil las partidas guardadas, el contador de identificadores y el día del tablón.
     private void cargarPartidas() {
         listaPartidas.clear();
+        fechaTablon = preferencias.getString(CLAVE_FECHA_TABLON, null);
         String textoGuardado = preferencias.getString(CLAVE_PARTIDAS, null);
-
         if (textoGuardado == null) {
-            cargarPartidasIniciales();
-            guardarEnMovil();
             return;
         }
 
@@ -68,23 +74,74 @@ public class GestorPartidas {
             contadorId = Math.max(preferencias.getInt(CLAVE_CONTADOR_ID, idMaximo + 1), idMaximo + 1);
         } catch (JSONException e) {
             // Si los datos guardados están estropeados, empezamos de nuevo en vez de cerrar la app.
-            Log.e(ETIQUETA, "Datos guardados no válidos, se cargan las partidas de ejemplo.", e);
+            Log.e(ETIQUETA, "Datos guardados no válidos, se empieza con el tablón vacío.", e);
             listaPartidas.clear();
+        }
+    }
+
+    // Borra las partidas de días anteriores y, si no queda ninguna visible, crea las de ejemplo.
+    private void actualizarTablon() {
+        boolean hayCambios = false;
+        String hoy = obtenerFechaDeHoy();
+
+        if (!hoy.equals(fechaTablon)) {
+            listaPartidas.clear();
+            fechaTablon = hoy;
+            hayCambios = true;
+        }
+
+        if (obtenerPartidasVisibles().isEmpty()) {
             cargarPartidasIniciales();
+            hayCambios = true;
+        }
+
+        if (hayCambios) {
             guardarEnMovil();
         }
     }
 
-    // Carga las 3 partidas de ejemplo iniciales requeridas para el funcionamiento del MVP.
+    // Añade las 3 partidas de ejemplo del MVP con horas a partir de ahora para que la demo nunca salga vacía.
     private void cargarPartidasIniciales() {
-        listaPartidas.clear();
-        listaPartidas.add(new Partida(1, "Dominó", "Plaza Mayor", "17:00", 1, "Manolo"));
-        listaPartidas.add(new Partida(2, "Petanca", "Parque Central", "18:00", 2, "Carmen"));
-        listaPartidas.add(new Partida(3, "Cartas", "Centro Cívico", "16:30", 3, "Paco"));
-        contadorId = 4;
+        listaPartidas.add(new Partida(contadorId++, "Dominó", "Plaza Mayor", calcularHoraDentroDe(1), 1, "Manolo"));
+        listaPartidas.add(new Partida(contadorId++, "Petanca", "Parque Central", calcularHoraDentroDe(2), 2, "Carmen"));
+        listaPartidas.add(new Partida(contadorId++, "Cartas", "Centro Cívico", calcularHoraDentroDe(3), 3, "Paco"));
     }
 
-    // Guarda la lista completa de partidas y el contador de identificadores en el móvil.
+    // Devuelve la hora en punto dentro de las horas indicadas ("17:00"), o "23:59" si ya sería mañana.
+    private String calcularHoraDentroDe(int horas) {
+        Calendar calendario = Calendar.getInstance();
+        int diaDeHoy = calendario.get(Calendar.DAY_OF_YEAR);
+        calendario.add(Calendar.HOUR_OF_DAY, horas);
+        if (calendario.get(Calendar.DAY_OF_YEAR) != diaDeHoy) {
+            return "23:59";
+        }
+        return String.format(Locale.US, "%02d:00", calendario.get(Calendar.HOUR_OF_DAY));
+    }
+
+    // Devuelve la fecha de hoy en formato "2026-10-16" para saber si ha cambiado el día.
+    private String obtenerFechaDeHoy() {
+        return new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(new Date());
+    }
+
+    // Devuelve los minutos que han pasado desde las 00:00 de hoy.
+    private int obtenerMinutosAhora() {
+        Calendar ahora = Calendar.getInstance();
+        return ahora.get(Calendar.HOUR_OF_DAY) * 60 + ahora.get(Calendar.MINUTE);
+    }
+
+    // Devuelve solo las partidas cuya hora todavía no ha pasado.
+    private List<Partida> obtenerPartidasVisibles() {
+        int minutosAhora = obtenerMinutosAhora();
+        List<Partida> visibles = new ArrayList<>();
+        for (Partida p : listaPartidas) {
+            if (!p.yaHaPasado(minutosAhora)) {
+                visibles.add(p);
+            }
+        }
+        return visibles;
+    }
+
+    // Guarda la lista completa de partidas, el contador de identificadores y el día en el móvil.
     private void guardarEnMovil() {
         try {
             JSONArray arrayPartidas = new JSONArray();
@@ -94,24 +151,27 @@ public class GestorPartidas {
             preferencias.edit()
                     .putString(CLAVE_PARTIDAS, arrayPartidas.toString())
                     .putInt(CLAVE_CONTADOR_ID, contadorId)
+                    .putString(CLAVE_FECHA_TABLON, fechaTablon)
                     .apply();
         } catch (JSONException e) {
             Log.e(ETIQUETA, "No se han podido guardar las partidas.", e);
         }
     }
 
-    // Devuelve una copia de la lista completa de partidas registradas.
+    // Devuelve las partidas de hoy que todavía no han pasado.
     public synchronized List<Partida> obtenerPartidas() {
-        return new ArrayList<>(listaPartidas);
+        actualizarTablon();
+        return obtenerPartidasVisibles();
     }
 
     // Devuelve la lista de partidas filtradas según el nombre del juego seleccionado.
     public synchronized List<Partida> obtenerPartidasPorJuego(String juego) {
+        List<Partida> visibles = obtenerPartidas();
         if (juego == null || juego.trim().isEmpty() || juego.trim().equalsIgnoreCase("Todos")) {
-            return obtenerPartidas();
+            return visibles;
         }
         List<Partida> filtradas = new ArrayList<>();
-        for (Partida p : listaPartidas) {
+        for (Partida p : visibles) {
             if (juego.trim().equalsIgnoreCase(p.getJuego())) {
                 filtradas.add(p);
             }

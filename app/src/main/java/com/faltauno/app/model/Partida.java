@@ -3,6 +3,9 @@ package com.faltauno.app.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Modelo que representa una partida de juego organizada en el barrio.
  */
@@ -15,6 +18,9 @@ public class Partida {
     private static final String CLAVE_HORA = "hora";
     private static final String CLAVE_PLAZAS_LIBRES = "plazasLibres";
     private static final String CLAVE_CREADOR = "creador";
+
+    // Horas válidas: "17", "17:00", "17.30", "17h", "17 h"...
+    private static final Pattern FORMATO_HORA = Pattern.compile("^(\\d{1,2})(?:\\s*[:.hH]\\s*(\\d{2})?)?$");
 
     private int id;
     private String juego;
@@ -100,6 +106,29 @@ public class Partida {
     // Comprueba si la partida ya no tiene plazas libres disponibles.
     public boolean estaLlena() {
         return this.plazasLibres <= 0;
+    }
+
+    // Pasa la hora escrita ("17:00", "17.30", "17h" o "17") a minutos desde las 00:00, o -1 si no se entiende.
+    public int calcularMinutosDelDia() {
+        if (hora == null) {
+            return -1;
+        }
+        Matcher partes = FORMATO_HORA.matcher(hora.trim());
+        if (!partes.matches()) {
+            return -1;
+        }
+        int horas = Integer.parseInt(partes.group(1));
+        int minutos = (partes.group(2) != null) ? Integer.parseInt(partes.group(2)) : 0;
+        if (horas > 23 || minutos > 59) {
+            return -1;
+        }
+        return horas * 60 + minutos;
+    }
+
+    // Comprueba si la hora de la partida ya ha pasado. Si la hora no se entiende, no se oculta.
+    public boolean yaHaPasado(int minutosAhora) {
+        int minutosPartida = calcularMinutosDelDia();
+        return minutosPartida >= 0 && minutosPartida < minutosAhora;
     }
 
     // Convierte la partida en un objeto JSON para poder guardarla en el móvil.
