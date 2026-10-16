@@ -37,7 +37,11 @@
     <string name="formato_lugar">Lugar: %1$s</string>
     <string name="formato_plazas_libres">Plazas libres: %1$d</string>
     <string name="formato_creador">Organiza: %1$s</string>
-    <string name="formato_locucion_voz">Partida de %1$s, a las %2$s, en %3$s. Quedan %4$d plazas libres.</string>
+    <string name="formato_locucion_voz">Partida de %1$s, a las %2$s, en %3$s. %4$s</string>
+    <plurals name="locucion_plazas_libres">
+        <item quantity="one">Queda %d plaza libre.</item>
+        <item quantity="other">Quedan %d plazas libres.</item>
+    </plurals>
 
     <!-- Mensajes informativos y avisos Toast -->
     <string name="toast_apuntado_exito">¡Me apunto! Te esperan a las %1$s en %2$s.</string>

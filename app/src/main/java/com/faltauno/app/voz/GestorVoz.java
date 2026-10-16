@@ -40,11 +40,12 @@ public class GestorVoz implements TextToSpeech.OnInitListener {
         }
     }
 
-    // Reproduce el texto en voz alta cortando audios anteriores
-    public void hablar(String texto) {
+    // Reproduce el texto en voz alta cortando audios anteriores; devuelve false si la voz no está disponible
+    public boolean hablar(String texto) {
         if (listo && tts != null && texto != null) {
-            tts.speak(texto, TextToSpeech.QUEUE_FLUSH, null, null);
+            return tts.speak(texto, TextToSpeech.QUEUE_FLUSH, null, null) == TextToSpeech.SUCCESS;
         }
+        return false;
     }
 
     // Libera recursos y limpia las referencias al salir

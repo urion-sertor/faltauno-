@@ -152,12 +152,19 @@ public class MainActivity extends AppCompatActivity implements PartidasAdapter.O
         if (gestorVoz == null) {
             return;
         }
+        // "Queda 1 plaza libre" / "Quedan 2 plazas libres", o "Partida llena" si no queda ninguna
+        String plazas = partida.estaLlena()
+                ? getString(R.string.estado_partida_llena)
+                : getResources().getQuantityString(R.plurals.locucion_plazas_libres,
+                        partida.getPlazasLibres(), partida.getPlazasLibres());
         String texto = getString(R.string.formato_locucion_voz,
                 partida.getJuego(),
                 partida.getHora(),
                 partida.getLugar(),
-                partida.getPlazasLibres());
-        gestorVoz.hablar(texto);
+                plazas);
+        if (!gestorVoz.hablar(texto)) {
+            Toast.makeText(this, R.string.toast_error_voz, Toast.LENGTH_LONG).show();
+        }
     }
 
     // Refresca la lista de partidas cada vez que el usuario regresa a la pantalla principal.
