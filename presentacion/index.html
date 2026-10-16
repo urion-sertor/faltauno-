@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Falta Uno! · Presentación</title>
+<style>
+  /* Misma paleta que app/src/main/res/values/colors.xml */
+  :root {
+    --primario: #21634F;
+    --primario-claro: #E7F0E7;
+    --fondo: #FAF7EF;
+    --tarjeta: #FFFFFF;
+    --texto: #233A35;
+    --texto-sec: #3F4F49;
+    --amarillo: #F4C66A;
+    --petanca: #F9E5D5;
+    --domino: #E7F0E7;
+    --cartas: #EDE7F5;
+    --todos: #E3EEF3;
+    --borde: #D9DED2;
+    --gris-lleno: #5F6B66;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #10241F; overflow: hidden; }
+  body {
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--texto);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Escenario fijo 1600x900 que se escala a la pantalla */
+  #escenario {
+    position: absolute; left: 50%; top: 50%;
+    width: 1600px; height: 900px;
+    transform-origin: center center;
+  }
+  .diapo {
+    position: absolute; inset: 0;
+    background: var(--fondo);
+    padding: 64px 88px;
+    display: flex; flex-direction: column;
+    opacity: 0; visibility: hidden;
+    transition: opacity .35s ease, transform .35s ease;
+    transform: translateX(24px);
+    overflow: hidden;
+  }
+  .diapo.activa { opacity: 1; visibility: visible; transform: none; }
+  .diapo.pasada { transform: translateX(-24px); }
+
+  /* Elementos comunes */
+  .marca { display: flex; align-items: center; gap: 16px; }
+  .logo {
+    width: 64px; height: 64px; border-radius: 16px;
+    background: var(--amarillo); color: var(--texto);
+    display: grid; place-items: center;
+    font-weight: 800; font-size: 38px; transform: rotate(-6deg);
+    flex: none;
+  }
+  .marca .nombre { color: var(--primario); font-weight: 800; font-size: 40px; }
+  .marca.pequena .logo { width: 44px; height: 44px; font-size: 26px; border-radius: 12px; }
+  .marca.pequena .nombre { font-size: 28px; }
+  .cabecera { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
+  .num { font-size: 22px; color: var(--texto-sec); font-weight: 600; }
+  h1 { font-size: 64px; line-height: 1.08; font-weight: 800; letter-spacing: -1px; }
+  h2 { font-size: 54px; line-height: 1.1; font-weight: 800; letter-spacing: -.5px; }
+  .sub { font-size: 30px; color: var(--texto-sec); margin-top: 14px; line-height: 1.3; }
+  .verde { color: var(--primario); }
+  .chip {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 10px 20px; border-radius: 999px;
+    font-size: 24px; font-weight: 700;
+    background: var(--primario-claro); color: var(--primario);
+  }
+  .chip.amarillo { background: var(--amarillo); color: var(--texto); }
+  .tarjeta {
+    background: var(--tarjeta); border: 2px solid var(--borde);
+    border-radius: 24px; padding: 28px;
+  }
+  .movil {
+    border-radius: 34px; border: 10px solid #1B2522;
+    box-shadow: 0 24px 48px rgba(16, 36, 31, .25);
+    background: #1B2522; display: block;
+  }
+  .icono { width: 1em; height: 1em; stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+  .icono .punto { fill: currentColor; stroke: none; }
+
+  /* 1 · Portada */
+  #d1 { flex-direction: row; align-items: center; gap: 60px; }
+  #d1 .texto { flex: 1; }
+  #d1 .marca .logo { width: 120px; height: 120px; font-size: 72px; border-radius: 28px; }
+  #d1 .marca .nombre { font-size: 96px; letter-spacing: -2px; }
+  #d1 .lema { font-size: 44px; font-weight: 700; margin-top: 36px; line-height: 1.2; }
+  #d1 .equipo { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 48px; }
+  #d1 .equipo .chip { font-size: 26px; padding: 12px 24px; }
+  #d1 .curso { font-size: 24px; color: var(--texto-sec); margin-top: 22px; }
+  #d1 .movil { height: 760px; transform: rotate(3deg); }
+
+  /* 2 · Problema */
+  #d2 .grande { font-size: 84px; font-weight: 800; line-height: 1.05; letter-spacing: -1.5px; margin: auto 0; }
+  #d2 .grande span { background: linear-gradient(transparent 62%, var(--amarillo) 62%); }
+  #d2 .fila { display: flex; gap: 28px; }
+  #d2 .caso { flex: 1; border-radius: 28px; padding: 34px; display: flex; flex-direction: column; gap: 18px; }
+  #d2 .caso .ico { font-size: 64px; color: var(--primario); }
+  #d2 .caso p { font-size: 32px; font-weight: 700; line-height: 1.2; }
+
+  /* 3 · Solución */
+  #d3 .cuerpo { display: flex; gap: 56px; align-items: center; flex: 1; }
+  #d3 .pasos { flex: 1; display: flex; flex-direction: column; gap: 22px; }
+  #d3 .paso { display: flex; align-items: center; gap: 22px; font-size: 36px; font-weight: 700; }
+  #d3 .paso b {
+    width: 64px; height: 64px; border-radius: 18px; flex: none;
+    display: grid; place-items: center; font-size: 32px;
+    background: var(--primario); color: #fff;
+  }
+  #d3 .capturas { display: flex; gap: 28px; align-items: flex-end; }
+  #d3 .capturas .movil { height: 640px; }
+  #d3 .capturas .tablet { height: 560px; border-radius: 28px; }
+
+  /* 4 · Del Figma a la app */
+  #d4 .pares { display: flex; gap: 28px; justify-content: center; flex: 1; align-items: center; }
+  #d4 .par { display: flex; gap: 10px; align-items: flex-end; }
+  #d4 .par figure { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  #d4 .par img { height: 500px; border-radius: 22px; box-shadow: 0 14px 30px rgba(16, 36, 31, .18); }
+  #d4 figcaption { font-size: 22px; font-weight: 700; color: var(--texto-sec); }
+  #d4 figcaption.app { color: var(--primario); }
+  #d4 .flecha { font-size: 34px; color: var(--primario); align-self: center; margin-bottom: 40px; }
+
+  /* 5 · Cómo trabajamos */
+  #d5 .dos { display: flex; gap: 40px; flex: 1; }
+  #d5 .bloque { flex: 1; display: flex; flex-direction: column; }
+  #d5 .bloque h3 { font-size: 34px; margin-bottom: 22px; }
+  #d5 .sdd { display: flex; flex-direction: column; gap: 12px; }
+  #d5 .sdd .doc {
+    display: flex; align-items: center; gap: 18px;
+    background: var(--tarjeta); border: 2px solid var(--borde); border-radius: 18px;
+    padding: 14px 22px; font-size: 26px; font-weight: 700;
+  }
+  #d5 .sdd .doc code { font-family: Consolas, monospace; font-size: 22px; color: var(--primario); background: var(--primario-claro); padding: 4px 10px; border-radius: 8px; }
+  #d5 .sdd .doc span { font-weight: 500; color: var(--texto-sec); font-size: 22px; }
+  #d5 .sdd .bajada { text-align: center; color: var(--primario); font-size: 26px; line-height: 0.6; }
+  #d5 .sdd .doc.codigo { background: var(--primario); color: #fff; border-color: var(--primario); }
+  #d5 .sdd .doc.codigo span { color: #DCEBE3; }
+  #d5 svg.git { width: 100%; height: auto; }
+
+  /* 6 · Funcionalidades */
+  #d6 .cuatro { display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px; flex: 1; }
+  #d6 .func { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  #d6 .func img { height: 520px; }
+  #d6 .func .titulo { display: flex; align-items: center; gap: 12px; font-size: 30px; font-weight: 800; }
+  #d6 .func .titulo .icono { color: var(--primario); font-size: 34px; }
+  #d6 .func p { font-size: 22px; color: var(--texto-sec); text-align: center; line-height: 1.25; }
+  #d6 .voz {
+    height: 520px; width: 100%; border-radius: 34px; background: var(--primario-claro);
+    display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 30px; padding: 30px;
+  }
+  #d6 .voz .onda { display: flex; gap: 10px; align-items: center; height: 120px; }
+  #d6 .voz .onda i { width: 14px; border-radius: 7px; background: var(--primario); animation: onda 1.1s ease-in-out infinite; }
+  #d6 .voz .onda i:nth-child(1) { height: 40px; animation-delay: 0s; }
+  #d6 .voz .onda i:nth-child(2) { height: 80px; animation-delay: .1s; }
+  #d6 .voz .onda i:nth-child(3) { height: 120px; animation-delay: .2s; }
+  #d6 .voz .onda i:nth-child(4) { height: 80px; animation-delay: .3s; }
+  #d6 .voz .onda i:nth-child(5) { height: 40px; animation-delay: .4s; }
+  @keyframes onda { 50% { transform: scaleY(.45); } }
+  #d6 .voz blockquote { font-size: 26px; font-weight: 700; text-align: center; line-height: 1.35; color: var(--texto); }
+
+  /* 7 · Accesibilidad + arquitectura */
+  #d7 .dos { display: flex; gap: 44px; flex: 1; align-items: stretch; }
+  #d7 .acc { width: 600px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  #d7 .dato { border-radius: 26px; padding: 26px; display: flex; flex-direction: column; justify-content: center; gap: 8px; }
+  #d7 .dato b { font-size: 60px; line-height: 1; font-weight: 800; }
+  #d7 .dato span { font-size: 24px; font-weight: 600; line-height: 1.25; }
+  #d7 .arq { flex: 1; display: flex; flex-direction: column; }
+  #d7 .arq h3 { font-size: 30px; margin-bottom: 12px; }
+  #d7 svg.clases { width: 100%; flex: 1; }
+
+  /* 8 · Limitaciones, siguientes pasos y gracias */
+  #d8 .tres { display: flex; gap: 32px; flex: 1; }
+  #d8 .col { flex: 1; display: flex; flex-direction: column; gap: 14px; }
+  #d8 .col h3 { font-size: 32px; margin-bottom: 6px; }
+  #d8 .col li { list-style: none; font-size: 25px; font-weight: 600; line-height: 1.25; padding: 16px 20px; border-radius: 18px; background: var(--tarjeta); border: 2px solid var(--borde); }
+  #d8 .col.siguiente li { background: var(--primario-claro); border-color: var(--primario-claro); }
+  #d8 .gracias { width: 400px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; background: var(--amarillo); border-radius: 32px; padding: 30px; }
+  #d8 .gracias .g { font-size: 72px; font-weight: 800; letter-spacing: -1px; }
+  #d8 .gracias img { width: 250px; height: 250px; border-radius: 18px; background: #fff; padding: 6px; }
+  #d8 .gracias .logo { background: #fff; }
+  #d8 .gracias .url { font-size: 20px; font-weight: 700; text-align: center; }
+
+  /* Barra de progreso y ayuda */
+  #progreso { position: absolute; left: 0; bottom: 0; height: 8px; background: var(--primario); transition: width .35s ease; z-index: 5; }
+  #ayuda { position: fixed; right: 14px; bottom: 14px; font-size: 13px; color: #A9C2B8; font-family: inherit; z-index: 20; opacity: .8; }
+
+  /* Notas del ponente (tecla N) */
+  #notas {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+    max-height: 42vh; overflow: auto;
+    background: rgba(16, 36, 31, .96); color: #F2F5F3;
+    padding: 18px 28px 26px; font-size: 19px; line-height: 1.5;
+    border-top: 4px solid var(--amarillo);
+    display: none; cursor: default;
+  }
+  #notas.visible { display: block; }
+  #notas .quien { display: inline-block; background: var(--amarillo); color: var(--texto); font-weight: 800; padding: 3px 14px; border-radius: 999px; margin-bottom: 8px; }
+  #notas .tiempo { color: #A9C2B8; margin-left: 10px; font-size: 15px; }
+  .nota { display: none; }
+</style>
+</head>
+<body>
+
+<!-- Iconos: los mismos trazos que los vector drawables de la app (res/drawable/ic_*.xml) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-petanca" viewBox="0 0 24 24"><circle cx="9" cy="14" r="6"/><circle cx="17" cy="7.5" r="4.5"/><circle class="punto" cx="19" cy="18.5" r="1.5"/></symbol>
+    <symbol id="i-domino" viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M6 12h12"/><circle class="punto" cx="12" cy="7.25" r="1.25"/><circle class="punto" cx="10" cy="15.25" r="1.25"/><circle class="punto" cx="14" cy="18.25" r="1.25"/></symbol>
+    <symbol id="i-cartas" viewBox="0 0 24 24"><path d="M17.28 9.05a5.5 5.5 0 1 0-10.56 0A5.5 5.5 0 1 0 12 17.66a5.5 5.5 0 1 0 5.28-8.61z"/><path d="M12 17.66V22"/></symbol>
+    <symbol id="i-parchis" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle class="punto" cx="16" cy="8" r="1.5"/><circle class="punto" cx="12" cy="12" r="1.5"/><circle class="punto" cx="8" cy="16" r="1.5"/></symbol>
+    <symbol id="i-todos" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></symbol>
+    <symbol id="i-altavoz" viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></symbol>
+    <symbol id="i-mas" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></symbol>
+    <symbol id="i-casa" viewBox="0 0 24 24"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></symbol>
+    <symbol id="i-duda" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6"/><circle class="punto" cx="12" cy="17" r="1.1"/></symbol>
+    <symbol id="i-movil" viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/><path d="M9 8h6M9 11h4"/></symbol>
+    <symbol id="i-filtro" viewBox="0 0 24 24"><path d="M3 5h18l-7 8v6l-4 2v-8z"/></symbol>
+  </defs>
+</svg>
+
+<div id="escenario">
+
+  <!-- 1 · PORTADA -->
+  <section class="diapo" id="d1" data-quien="Oriol" data-tiempo="40 s">
+    <div class="texto">
+      <div class="marca"><div class="logo">1</div><div class="nombre">Falta Uno!</div></div>
+      <p class="lema">Una partida cerca.<br><span class="verde">Un buen rato juntos.</span></p>
+      <div class="equipo">
+        <span class="chip">Adrián Iturbe</span>
+        <span class="chip">Pol Cañizares</span>
+        <span class="chip">Oriol Torres</span>
+        <span class="chip">Enrique Flores</span>
+      </div>
+      <p class="curso">2.º DAM · Monlau · MVP Android</p>
+    </div>
+    <img class="movil" src="img/movil_inicio.png" alt="Pantalla principal de Falta Uno! en el móvil">
+    <div class="nota">
+      Buenos días. Somos Adrián, Pol, Oriol y Enrique, y os presentamos <b>Falta Uno!</b>, una app Android para que las personas mayores del barrio encuentren o convoquen partidas de dominó, cartas, petanca o parchís.
+      En siete minutos os contamos el problema, cómo lo hemos resuelto, cómo hemos trabajado y lo que nos queda por hacer.
+    </div>
+  </section>
+
+  <!-- 2 · EL PROBLEMA -->
+  <section class="diapo" id="d2" data-quien="Oriol" data-tiempo="50 s">
+    <div class="cabecera"><div class="marca pequena"><div class="logo">1</div><div class="nombre">Falta Uno!</div></div><span class="num">El problema</span></div>
+    <p class="grande">Quieren jugar.<br><span>No saben si habrá alguien.</span></p>
+    <div class="fila">
+      <div class="caso" style="background:var(--petanca)"><svg class="icono ico"><use href="#i-casa"/></svg><p>Mayores solos en casa</p></div>
+      <div class="caso" style="background:var(--todos)"><svg class="icono ico"><use href="#i-duda"/></svg><p>¿Habrá gente en el parque hoy?</p></div>
+      <div class="caso" style="background:var(--cartas)"><svg class="icono ico"><use href="#i-movil"/></svg><p>Apps con registros, chats y letra pequeña</p></div>
+    </div>
+    <div class="nota">
+      En el barrio hay muchas personas mayores que viven solas y que saldrían a jugar una partida, pero no saben si habrá alguien esperándoles.
+      Y las apps que existen piden registrarse, tienen chats y letra pequeña: no están pensadas para ellos.
+      Nuestro objetivo es combatir la soledad con algo muy sencillo: un tablón de partidas del barrio.
+    </div>
+  </section>
+
+  <!-- 3 · LA SOLUCIÓN -->
+  <section class="diapo" id="d3" data-quien="Pol" data-tiempo="55 s">
+    <div class="cabecera"><div class="marca pequena"><div class="logo">1</div><div class="nombre">Falta Uno!</div></div><span class="num">La solución</span></div>
+    <div class="cuerpo">
+      <div class="pasos">
+        <h2>Un tablón de partidas<br><span class="verde">del barrio</span></h2>
+        <div class="paso" style="margin-top:26px"><b>1</b>Ver las partidas de hoy</div>
+        <div class="paso"><b>2</b>Apuntarse con un toque</div>
+        <div class="paso"><b>3</b>¿Os falta uno? Publicar aviso</div>
+        <div style="display:flex;gap:12px;margin-top:18px"><span class="chip">Sin registro</span><span class="chip">Sin chats</span><span class="chip amarillo">Móvil y tablet</span></div>
+      </div>
+      <div class="capturas">
+        <img class="movil" src="img/movil_inicio.png" alt="Tablón en el móvil">
+        <img class="movil tablet" src="img/tablet_inicio.png" alt="Tablón en la tablet">
+      </div>
+    </div>
+    <div class="nota">
+      Falta Uno! es un tablón: al abrir la app ves las partidas de hoy, con la hora, el sitio y cuántos faltan.
+      Para apuntarte basta un toque en "¡Me apunto!", y si a tu mesa le falta gente, publicas un aviso en segundos.
+      No hay registro, ni contraseñas, ni chats: solo un apodo. Funciona en móvil y en tablet.
+    </div>
+  </section>
+
+  <!-- 4 · DEL FIGMA A LA APP -->
+  <section class="diapo" id="d4" data-quien="Pol" data-tiempo="55 s">
+    <div class="cabecera"><h2>Del Figma <span class="verde">a la app</span></h2><span class="num">Diseño</span></div>
+    <div class="pares">
+      <div class="par">
+        <figure><img src="figma/01%20Inicio.png" alt="Figma: Inicio"><figcaption>Figma</figcaption></figure>
+        <span class="flecha">→</span>
+        <figure><img src="img/movil_inicio.png" alt="App: Inicio"><figcaption class="app">App</figcaption></figure>
+      </div>
+      <div class="par">
+        <figure><img src="figma/02%20Domin%C3%B3%20cerca%20de%20ti.png" alt="Figma: Dominó cerca de ti"><figcaption>Figma</figcaption></figure>
+        <span class="flecha">→</span>
+        <figure><img src="img/movil_filtro.png" alt="App: partidas de Dominó"><figcaption class="app">App</figcaption></figure>
+      </div>
+      <div class="par">
+        <figure><img src="figma/06%20Crear%20partida.png" alt="Figma: Crear partida"><figcaption>Figma</figcaption></figure>
+        <span class="flecha">→</span>
+        <figure><img src="img/movil_formulario.png" alt="App: Crear partida"><figcaption class="app">App</figcaption></figure>
+      </div>
+    </div>
+    <div class="nota">
+      Antes de programar diseñamos el prototipo en Figma. Después llevamos a la app los mismos colores (medidos píxel a píxel),
+      el logo del "1" amarillo, las casillas de colores de cada juego, las tarjetas "Hoy · hora" con la etiqueta amarilla y el formulario "¿Os falta uno?".
+      Hicimos dos cambios a propósito: textos secundarios más oscuros para que se lean mejor, y las casillas en una fila para que quepa la lista de partidas en el móvil.
+    </div>
+  </section>
+
+  <!-- 5 · CÓMO TRABAJAMOS -->
+  <section class="diapo" id="d5" data-quien="Enrique" data-tiempo="60 s">
+    <div class="cabecera"><h2>Cómo <span class="verde">trabajamos</span></h2><span class="num">SDD + Git</span></div>
+    <div class="dos">
+      <div class="bloque">
+        <h3>Primero la especificación (SDD)</h3>
+        <div class="sdd">
+          <div class="doc"><code>spec.md</code>Qué hace <span>· 6 requisitos EARS</span></div>
+          <div class="bajada">▼</div>
+          <div class="doc"><code>plan.md</code>Cómo <span>· Java + XML + SharedPreferences</span></div>
+          <div class="bajada">▼</div>
+          <div class="doc"><code>tasks.md</code>Tareas <span>· T-1 … T-9 con "hecho cuando…"</span></div>
+          <div class="bajada">▼</div>
+          <div class="doc codigo">Código Android <span>· revisado contra el spec</span></div>
+        </div>
+      </div>
+      <div class="bloque">
+        <h3>Una rama por persona → PR → main</h3>
+        <svg class="git" viewBox="0 0 700 480" role="img" aria-label="Ramas de cada persona que se fusionan en main con Pull Requests">
+          <style>
+            .rama { stroke-width: 6; fill: none; stroke-linecap: round; }
+            .t { font: 700 22px "Segoe UI", Roboto, sans-serif; fill: #233A35; }
+            .pr { font: 800 20px "Segoe UI", Roboto, sans-serif; fill: #21634F; text-anchor: middle; }
+          </style>
+          <!-- ramas: salen de main y vuelven a main con su Pull Request -->
+          <path class="rama" stroke="#E6A93A" d="M70 400 C 70 320, 110 320, 140 320 H 210 C 240 320, 250 360, 250 400"/>
+          <text class="t" x="110" y="305">PolCanizares</text>
+          <path class="rama" stroke="#7FA88F" d="M70 400 C 70 240, 120 240, 150 240 H 300 C 330 240, 340 330, 340 400"/>
+          <text class="t" x="150" y="225">EnriqueFlores</text>
+          <path class="rama" stroke="#A58CC9" d="M70 400 C 70 160, 130 160, 160 160 H 390 C 420 160, 430 300, 430 400"/>
+          <text class="t" x="160" y="145">AdrianIturbe</text>
+          <path class="rama" stroke="#E2A07A" d="M70 400 C 70 80, 140 80, 170 80 H 480 C 510 80, 520 280, 520 400"/>
+          <text class="t" x="170" y="65">OriolTorres</text>
+          <!-- revisión final y diseño -->
+          <path class="rama" stroke="#21634F" stroke-dasharray="2 12" d="M560 400 C 575 340, 615 340, 630 400"/>
+          <text class="t" x="545" y="325">revisión</text>
+          <!-- main -->
+          <line x1="40" y1="400" x2="670" y2="400" stroke="#21634F" stroke-width="10" stroke-linecap="round"/>
+          <circle cx="70" cy="400" r="12" fill="#F4C66A" stroke="#21634F" stroke-width="4"/>
+          <circle cx="250" cy="400" r="11" fill="#fff" stroke="#21634F" stroke-width="4"/>
+          <circle cx="340" cy="400" r="11" fill="#fff" stroke="#21634F" stroke-width="4"/>
+          <circle cx="430" cy="400" r="11" fill="#fff" stroke="#21634F" stroke-width="4"/>
+          <circle cx="520" cy="400" r="11" fill="#fff" stroke="#21634F" stroke-width="4"/>
+          <circle cx="630" cy="400" r="14" fill="#F4C66A" stroke="#21634F" stroke-width="4"/>
+          <!-- números de Pull Request debajo de main -->
+          <text class="t" x="40" y="465" style="text-anchor:start">main</text>
+          <text class="pr" x="250" y="440">PR #2</text>
+          <text class="pr" x="340" y="440">#3</text>
+          <text class="pr" x="430" y="440">#1</text>
+          <text class="pr" x="520" y="440">#4</text>
+          <text class="pr" x="630" y="440">#5–#7</text>
+        </svg>
+        <div style="display:flex;gap:12px;margin-top:8px;flex-wrap:wrap"><span class="chip">Sin force push</span><span class="chip">Merge normal</span><span class="chip amarillo">Compila antes de fusionar</span></div>
+      </div>
+    </div>
+    <div class="nota">
+      Trabajamos con Spec Driven Development: primero escribimos qué tiene que hacer la app en spec.md, con seis requisitos en formato EARS;
+      luego el plan técnico y la lista de tareas, cada una con su "hecho cuando…". El código se revisó siempre contra esos documentos.
+      En Git, cada uno trabajó en su rama y la integró en main con una Pull Request, sin force push y comprobando que compilaba antes de fusionar.
+      Al final hicimos una rama de revisión para unir todo y pulir el diseño.
+    </div>
+  </section>
+
+  <!-- 6 · FUNCIONALIDADES -->
+  <section class="diapo" id="d6" data-quien="Adrián" data-tiempo="60 s">
+    <div class="cabecera"><h2>Lo que <span class="verde">ya funciona</span></h2><span class="num">Funcionalidades</span></div>
+    <div class="cuatro">
+      <div class="func">
+        <img class="movil" src="img/movil_filtro.png" alt="Filtro por Dominó">
+        <div class="titulo"><svg class="icono"><use href="#i-filtro"/></svg>Filtrar</div>
+        <p>Una casilla por juego</p>
+      </div>
+      <div class="func">
+        <img class="movil" src="img/movil_apuntado.png" alt="Apuntado a una partida">
+        <div class="titulo"><svg class="icono"><use href="#i-check"/></svg>Apuntarse</div>
+        <p>Un toque · resta una plaza</p>
+      </div>
+      <div class="func">
+        <div class="voz">
+          <svg class="icono" style="font-size:90px;color:var(--primario)"><use href="#i-altavoz"/></svg>
+          <div class="onda"><i></i><i></i><i></i><i></i><i></i></div>
+          <blockquote>«Partida de Dominó, a las 21:00, en Plaza Mayor. Queda 1 plaza libre.»</blockquote>
+        </div>
+        <div class="titulo"><svg class="icono"><use href="#i-altavoz"/></svg>Oír</div>
+        <p>Voz de Android en español</p>
+      </div>
+      <div class="func">
+        <img class="movil" src="img/movil_error.png" alt="Aviso de hora ya pasada">
+        <div class="titulo"><svg class="icono"><use href="#i-mas"/></svg>Crear aviso</div>
+        <p>Valida la hora antes de publicar</p>
+      </div>
+    </div>
+    <div class="nota">
+      Esto es lo que ya funciona. Filtrar: tocas la casilla de un juego y solo ves esas partidas.
+      Apuntarse: un toque, resta una plaza y, si se llena, el botón pasa a "Partida llena" y nadie más puede entrar.
+      Oír: el altavoz lee en voz alta el juego, la hora, el lugar y las plazas, con la voz de Android en español.
+      Y crear aviso: el formulario comprueba que la hora tenga formato y que no haya pasado; si algo falta, avisa con un mensaje grande.
+      (Si hay tiempo, Oriol puede comentar el formulario, que es su parte.)
+    </div>
+  </section>
+
+  <!-- 7 · ACCESIBILIDAD + ARQUITECTURA -->
+  <section class="diapo" id="d7" data-quien="Adrián" data-tiempo="55 s">
+    <div class="cabecera"><h2>Pensada para <span class="verde">mayores</span></h2><span class="num">Accesibilidad + arquitectura</span></div>
+    <div class="dos">
+      <div class="acc">
+        <div class="dato" style="background:var(--amarillo)"><b>18 sp</b><span>letra mínima</span></div>
+        <div class="dato" style="background:var(--primario-claro)"><b>60 dp</b><span>botones mínimo</span></div>
+        <div class="dato" style="background:var(--cartas)"><b>7:1</b><span>contraste de los textos principales</span></div>
+        <div class="dato" style="background:var(--petanca)"><b>1 toque</b><span>para apuntarse, con voz</span></div>
+      </div>
+      <div class="arq">
+        <h3>Arquitectura sencilla (Java + XML)</h3>
+        <svg class="clases" viewBox="0 0 800 560" role="img" aria-label="Diagrama de clases de Falta Uno!">
+          <style>
+            .caja { fill: #fff; stroke: #21634F; stroke-width: 3; }
+            .caja.ui { fill: #E7F0E7; }
+            .caja.datos { fill: #FDF1D6; stroke: #B98A2E; }
+            .n { font: 800 21px "Segoe UI", Roboto, sans-serif; fill: #233A35; }
+            .d { font: 500 16px "Segoe UI", Roboto, sans-serif; fill: #3F4F49; }
+            .flecha { stroke: #21634F; stroke-width: 3; fill: none; marker-end: url(#punta); }
+          </style>
+          <defs><marker id="punta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 10 5 0 10z" fill="#21634F"/></marker></defs>
+
+          <!-- Pantallas -->
+          <rect class="caja ui" x="10" y="10" width="250" height="84" rx="16"/><text class="n" x="28" y="46">MainActivity</text><text class="d" x="28" y="74">tablón y filtros · Pol</text>
+          <rect class="caja ui" x="520" y="10" width="270" height="84" rx="16"/><text class="n" x="538" y="46">NuevaPartidaActivity</text><text class="d" x="538" y="74">formulario · Oriol</text>
+          <!-- Ayudantes de la interfaz (con huecos para que pasen las flechas) -->
+          <rect class="caja ui" x="10" y="190" width="220" height="84" rx="16"/><text class="n" x="26" y="226">PartidasAdapter</text><text class="d" x="26" y="254">tarjetas · Adrián</text>
+          <rect class="caja ui" x="300" y="190" width="200" height="84" rx="16"/><text class="n" x="316" y="226">GestorVoz</text><text class="d" x="316" y="254">voz · Adrián</text>
+          <rect class="caja ui" x="570" y="190" width="220" height="84" rx="16"/><text class="n" x="586" y="226">Avisos</text><text class="d" x="586" y="254">mensajes grandes</text>
+          <!-- Datos -->
+          <rect class="caja datos" x="200" y="370" width="400" height="80" rx="16"/><text class="n" x="220" y="406">GestorPartidas</text><text class="d" x="220" y="432">datos y reglas · Enrique</text>
+          <rect class="caja datos" x="40" y="486" width="220" height="62" rx="16"/><text class="n" x="60" y="524">Partida</text>
+          <rect class="caja datos" x="470" y="486" width="320" height="62" rx="16"/><text class="n" x="490" y="524">SharedPreferences</text><text class="d" x="700" y="524">JSON</text>
+
+          <!-- Flechas de las pantallas -->
+          <path class="flecha" d="M110 94 V186"/>
+          <path class="flecha" d="M220 94 C 260 130, 330 140, 370 186"/>
+          <path class="flecha" d="M260 60 C 420 60, 600 110, 640 186"/>
+          <path class="flecha" d="M720 94 V186"/>
+          <path class="flecha" d="M240 94 C 268 180, 262 300, 290 366"/>
+          <path class="flecha" d="M560 94 C 532 180, 538 300, 510 366"/>
+          <!-- Flechas de los datos -->
+          <path class="flecha" d="M290 450 L190 482"/>
+          <path class="flecha" d="M520 450 L600 482"/>
+        </svg>
+      </div>
+    </div>
+    <div class="nota">
+      Toda la app sigue las normas de nuestra constitución: letra de 18 sp como mínimo, botones de 60 dp, contraste alto
+      (los textos principales tienen 7 a 1 o más y ningún texto baja de 5,5 a 1; oscurecimos el gris del Figma para conseguirlo) y la voz para quien no ve bien.
+      La arquitectura es sencilla: dos pantallas, el adaptador de las tarjetas, el gestor de voz y un gestor de datos único
+      que guarda las partidas en el móvil en formato JSON. Cada caja lleva el nombre de quién la hizo.
+    </div>
+  </section>
+
+  <!-- 8 · LIMITACIONES, SIGUIENTES PASOS Y GRACIAS -->
+  <section class="diapo" id="d8" data-quien="Enrique" data-tiempo="50 s">
+    <div class="cabecera"><h2>Lo que <span class="verde">nos queda</span></h2><span class="num">Siguientes pasos</span></div>
+    <div class="tres">
+      <ul class="col">
+        <h3>Limitaciones</h3>
+        <li>Los datos solo están en este móvil</li>
+        <li>Partidas solo para hoy</li>
+        <li>Tablet en horizontal sin adaptar</li>
+        <li>Probado en emulador, aún no con mayores</li>
+      </ul>
+      <ul class="col siguiente">
+        <h3>Siguientes pasos</h3>
+        <li>Servidor para compartir partidas</li>
+        <li>Borrarse de una partida</li>
+        <li>Iconos de juego en cada tarjeta</li>
+        <li>Probarlo con abuelos del barrio</li>
+      </ul>
+      <div class="gracias">
+        <div class="marca pequena"><div class="logo">1</div><div class="nombre" style="color:var(--texto)">Falta Uno!</div></div>
+        <div class="g">¡Gracias!</div>
+        <img src="img/qr_github.svg" alt="Código QR al repositorio de GitHub">
+        <div class="url">github.com/urion-sertor/faltauno-</div>
+      </div>
+    </div>
+    <div class="nota">
+      Somos sinceros con lo que falta: es un MVP sin servidor, así que las partidas solo viven en el móvil donde se crean, solo hay partidas para hoy,
+      la tablet en horizontal todavía no está adaptada y la hemos probado en emulador pero aún no con personas mayores, que es la tarea T-9.
+      Los siguientes pasos serían un servidor para compartir las partidas entre vecinos, poder borrarse, iconos en las tarjetas y la prueba real con abuelos.
+      Tenéis el código, el SDD y esta presentación en GitHub con el QR. ¡Muchas gracias! ¿Preguntas?
+    </div>
+  </section>
+
+  <div id="progreso"></div>
+</div>
+
+<div id="notas" aria-live="polite"></div>
+<div id="ayuda">← → / clic: pasar · N: notas · F: pantalla completa</div>
+
+<script>
+  // Navegación de diapositivas: flechas, espacio, clic, rueda y gesto en pantalla táctil
+  const diapos = Array.from(document.querySelectorAll('.diapo'));
+  const escenario = document.getElementById('escenario');
+  const progreso = document.getElementById('progreso');
+  const panelNotas = document.getElementById('notas');
+  let actual = 0;
+
+  // Escala el escenario de 1600x900 para que quepa en la ventana sin deformarse
+  function ajustar() {
+    const k = Math.min(window.innerWidth / 1600, window.innerHeight / 900);
+    escenario.style.transform = `translate(-50%, -50%) scale(${k})`;
+  }
+
+  // Muestra la diapositiva n y actualiza progreso, notas y dirección (#n)
+  function ir(n) {
+    actual = Math.max(0, Math.min(diapos.length - 1, n));
+    diapos.forEach((d, i) => {
+      d.classList.toggle('activa', i === actual);
+      d.classList.toggle('pasada', i < actual);
+    });
+    progreso.style.width = `${((actual + 1) / diapos.length) * 100}%`;
+    const d = diapos[actual];
+    const nota = d.querySelector('.nota');
+    panelNotas.innerHTML =
+      `<span class="quien">${actual + 1}/${diapos.length} · Habla: ${d.dataset.quien}</span>` +
+      `<span class="tiempo">≈ ${d.dataset.tiempo}</span><div>${nota ? nota.innerHTML : ''}</div>`;
+    if (location.hash !== `#${actual + 1}`) history.replaceState(null, '', `#${actual + 1}`);
+  }
+
+  // Activa o quita la pantalla completa
+  function pantallaCompleta() {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+    else document.exitFullscreen?.();
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (['ArrowRight', 'ArrowDown', 'PageDown', ' ', 'Enter'].includes(e.key)) { e.preventDefault(); ir(actual + 1); }
+    else if (['ArrowLeft', 'ArrowUp', 'PageUp', 'Backspace'].includes(e.key)) { e.preventDefault(); ir(actual - 1); }
+    else if (e.key === 'Home') ir(0);
+    else if (e.key === 'End') ir(diapos.length - 1);
+    else if (e.key === 'n' || e.key === 'N') panelNotas.classList.toggle('visible');
+    else if (e.key === 'f' || e.key === 'F') pantallaCompleta();
+  });
+
+  // Clic: mitad derecha avanza, mitad izquierda retrocede (no cuenta si se pulsa en las notas)
+  document.addEventListener('click', (e) => {
+    if (panelNotas.contains(e.target)) return;
+    ir(e.clientX < window.innerWidth / 3 ? actual - 1 : actual + 1);
+  });
+
+  // Deslizar con el dedo en pantallas táctiles
+  let inicioX = null;
+  document.addEventListener('touchstart', (e) => { inicioX = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', (e) => {
+    if (inicioX === null) return;
+    const dx = e.changedTouches[0].clientX - inicioX;
+    if (Math.abs(dx) > 50) ir(dx < 0 ? actual + 1 : actual - 1);
+    inicioX = null;
+  });
+
+  window.addEventListener('resize', ajustar);
+  window.addEventListener('hashchange', () => ir(parseInt(location.hash.slice(1), 10) - 1 || 0));
+  ajustar();
+  ir(parseInt(location.hash.slice(1), 10) - 1 || 0);
+</script>
+</body>
+</html>
