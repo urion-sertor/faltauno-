@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -37,6 +39,15 @@ public class MainActivity extends AppCompatActivity implements PartidasAdapter.O
     private Button btnFiltroPetanca;
     private Button btnFiltroParchis;
     private Button btnFaltaUno;
+
+    // Abre la pantalla "Falta 1" y, si se publica una partida, muestra el aviso verde al volver
+    private final ActivityResultLauncher<Intent> abrirNuevaPartida = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            resultado -> {
+                if (resultado.getResultCode() == RESULT_OK) {
+                    Avisos.mostrarExito(rvPartidas, getString(R.string.aviso_partida_publicada), btnFaltaUno);
+                }
+            });
 
     // Juego elegido en los filtros; empieza en "Todos" (se lee de strings.xml en onCreate)
     private String juegoSeleccionado;
@@ -133,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements PartidasAdapter.O
     private void configurarBotonFaltaUno() {
         btnFaltaUno.setOnClickListener(v -> {
             Intent intencion = new Intent(MainActivity.this, NuevaPartidaActivity.class);
-            startActivity(intencion);
+            abrirNuevaPartida.launch(intencion);
         });
     }
 
@@ -142,11 +153,10 @@ public class MainActivity extends AppCompatActivity implements PartidasAdapter.O
     public void onMeApuntoClick(Partida partida, int posicion) {
         boolean exito = gestorPartidas.apuntarseAPartida(partida.getId());
         if (exito) {
-            String mensaje = getString(R.string.toast_apuntado_exito, partida.getHora(), partida.getLugar());
-            Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+            Avisos.mostrarExito(rvPartidas, getString(R.string.aviso_apuntado, partida.getHora()), btnFaltaUno);
             filtrarPorJuego(juegoSeleccionado);
         } else {
-            Toast.makeText(this, R.string.toast_partida_llena, Toast.LENGTH_SHORT).show();
+            Avisos.mostrarError(rvPartidas, getString(R.string.aviso_partida_llena), btnFaltaUno);
         }
     }
 
@@ -167,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements PartidasAdapter.O
                 partida.getLugar(),
                 plazas);
         if (!gestorVoz.hablar(texto)) {
-            Toast.makeText(this, R.string.toast_error_voz, Toast.LENGTH_LONG).show();
+            Avisos.mostrarError(rvPartidas, getString(R.string.aviso_error_voz), btnFaltaUno);
         }
     }
 
