@@ -3,63 +3,57 @@ package com.faltauno.app.voz;
 import android.content.Context;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
-
 import java.util.Locale;
 
-/**
- * Gestor del motor nativo TextToSpeech de Android configurado en español.
- */
 public class GestorVoz implements TextToSpeech.OnInitListener {
 
-    private static final String ETIQUETA = "GestorVoz";
-    private TextToSpeech motorVoz;
-    private boolean motorListo = false;
+    private TextToSpeech tts;
+    private boolean listo = false;
 
-    // Constructor vacío por defecto.
+    // Constructor vacio (por si se usa junto con inicializar)
     public GestorVoz() {
     }
 
-    // Inicializa el servicio de voz de Android con el contexto de la aplicación.
-    public void inicializar(Context contexto) {
-        if (motorVoz == null) {
-            motorVoz = new TextToSpeech(contexto.getApplicationContext(), this);
+    // Constructor directo con contexto (evita fugas con getApplicationContext)
+    public GestorVoz(Context context) {
+        inicializar(context);
+    }
+
+    // Metodo de inicializacion que usa Pol en MainActivity
+    public void inicializar(Context context) {
+        if (tts == null && context != null) {
+            tts = new TextToSpeech(context.getApplicationContext(), this);
         }
     }
 
-    // Callback de Android que configura el idioma español cuando el motor termina de cargar.
     @Override
-    public void onInit(int estado) {
-        if (estado == TextToSpeech.SUCCESS) {
-            int resultado = motorVoz.setLanguage(new Locale("es", "ES"));
-            if (resultado == TextToSpeech.LANG_MISSING_DATA || resultado == TextToSpeech.LANG_NOT_SUPPORTED) {
-                Log.e(ETIQUETA, "El idioma español no está disponible en este dispositivo.");
-                motorListo = false;
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            int res = tts.setLanguage(new Locale("es", "ES"));
+            if (res == TextToSpeech.LANG_NOT_SUPPORTED || res == TextToSpeech.LANG_MISSING_DATA) {
+                Log.e("GestorVoz", "Idioma espanol no disponible en el movil");
             } else {
-                motorListo = true;
-                Log.i(ETIQUETA, "Motor de voz configurado en español con éxito.");
+                listo = true;
             }
         } else {
-            Log.e(ETIQUETA, "Fallo al inicializar el motor TextToSpeech.");
-            motorListo = false;
+            Log.e("GestorVoz", "Error iniciando TextToSpeech");
         }
     }
 
-    // Detiene cualquier locución anterior y pronuncia el texto indicado en voz alta.
+    // Reproduce el texto en voz alta cortando audios anteriores
     public void hablar(String texto) {
-        if (motorListo && motorVoz != null) {
-            motorVoz.speak(texto, TextToSpeech.QUEUE_FLUSH, null, null);
-        } else {
-            Log.w(ETIQUETA, "El motor de voz aún no está listo para hablar.");
+        if (listo && tts != null && texto != null) {
+            tts.speak(texto, TextToSpeech.QUEUE_FLUSH, null, null);
         }
     }
 
-    // Cierra y libera los recursos del motor TextToSpeech al salir de la pantalla.
+    // Libera recursos y limpia las referencias al salir
     public void liberar() {
-        if (motorVoz != null) {
-            motorVoz.stop();
-            motorVoz.shutdown();
-            motorVoz = null;
-            motorListo = false;
+        if (tts != null) {
+            tts.stop();
+            tts.shutdown();
+            tts = null;
+            listo = false;
         }
     }
 }
